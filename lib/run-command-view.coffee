@@ -14,7 +14,7 @@ class RunCommandView extends View
     atom.workspaceView.command "run-command:run", @toggle
     atom.workspaceView.command "run-command:re-run-last-command", @reRunCommand
     atom.workspaceView.command "run-command:toggle-panel", @togglePanel
-    @subscribe atom.workspaceView, 'core:confirm', @confirm
+    @subscribe atom.workspaceView, 'core:confirm', @runCommand
     @subscribe atom.workspaceView, 'core:cancel', @cancel
 
     @commandEntryView.setPlaceholderText('rake spec')
@@ -23,6 +23,23 @@ class RunCommandView extends View
 
 
   serialize: ->
+
+  runCommand: =>
+    command = @commandEntryView.getEditor().getText()
+
+    unless @stringIsBlank(command)
+      @commandRunnerView.runCommand(command)
+    @cancel()
+
+  reRunCommand: (e)=>
+    @commandRunnerView.reRunCommand(e)
+
+  cancel: =>
+    if @hasParent()
+      @restoreFocusedElement()
+      @detach()
+    else
+      @commandRunnerView.cancel()
 
   storeFocusedElement: =>
     @previouslyFocused = $(':focus')
@@ -36,9 +53,6 @@ class RunCommandView extends View
   toggle: =>
     if @hasParent() then @cancel() else @attach()
 
-  reRunCommand: (e)=>
-    @commandRunnerView.reRunCommand(e)
-
   togglePanel: =>
     @commandRunnerView.togglePanel()
 
@@ -47,17 +61,8 @@ class RunCommandView extends View
     @storeFocusedElement()
     @commandEntryView.focus()
 
-  confirm: =>
-    command = @commandEntryView.getEditor().getText()
-    @commandRunnerView.runCommand(command)
-    @cancel()
-
-  cancel: =>
-    if @hasParent()
-      @restoreFocusedElement()
-      @detach()
-    else
-      @commandRunnerView.cancel()
+  stringIsBlank: (str)->
+    !str or /^\s*$/.test str
 
   destroy: ->
     @cancel()
