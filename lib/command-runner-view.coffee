@@ -11,7 +11,6 @@ class CommandRunnerView extends View
       @div class: "panel-body padded results", =>
         @pre '', outlet: 'results'
 
-  # Tear down any state and detach
   destroy: ->
     delete @commandRunner
     @detach()
@@ -34,9 +33,6 @@ class CommandRunnerView extends View
     @commandRunner = new CommandRunner(command, @render)
     @commandRunner.runCommand()
     @showPanel()
-
-  promptForCommand: (e)=>
-    @runCommand "echo Hello World"
 
   reRunCommand: (e)=>
     if @commandRunner?

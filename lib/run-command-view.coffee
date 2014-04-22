@@ -8,7 +8,9 @@ class RunCommandView extends View
     @div class: 'run-command overlay from-top', =>
       @subview 'commandEntryView', new EditorView(mini: true)
 
-  initialize: (state)->
+  initialize: (commandRunnerView)->
+    @commandRunnerView = commandRunnerView
+
     atom.workspaceView.command "run-command:run", @toggle
     atom.workspaceView.command "run-command:re-run-last-command", @reRunCommand
     atom.workspaceView.command "run-command:toggle-panel", @togglePanel
@@ -34,11 +36,11 @@ class RunCommandView extends View
   toggle: =>
     if @hasParent() then @cancel() else @attach()
 
-  reRunCommand: ->
-    console.log 're-run'
+  reRunCommand: (e)=>
+    @commandRunnerView.reRunCommand(e)
 
-  togglePanel: ->
-    console.log 'toggle panel'
+  togglePanel: =>
+    @commandRunnerView.togglePanel()
 
   attach: =>
     atom.workspaceView.append this
@@ -46,12 +48,16 @@ class RunCommandView extends View
     @commandEntryView.focus()
 
   confirm: =>
-    console.log 'confirm'
+    command = @commandEntryView.getEditor().getText()
+    @commandRunnerView.runCommand(command)
     @cancel()
 
   cancel: =>
-    @restoreFocusedElement()
-    @detach() if @hasParent()
+    if @hasParent()
+      @restoreFocusedElement()
+      @detach()
+    else
+      @commandRunnerView.cancel()
 
   destroy: ->
     @cancel()
