@@ -14,6 +14,7 @@ class RunCommandView extends View
     atom.workspaceView.command "run-command:run", @toggle
     atom.workspaceView.command "run-command:re-run-last-command", @reRunCommand
     atom.workspaceView.command "run-command:toggle-panel", @togglePanel
+    atom.workspaceView.command 'run-command:kill-last-command', @killLastCommand
     @subscribe atom.workspaceView, 'core:confirm', @runCommand
     @subscribe atom.workspaceView, 'core:cancel', @cancel
 
@@ -33,6 +34,9 @@ class RunCommandView extends View
 
   reRunCommand: (e)=>
     @commandRunnerView.reRunCommand(e)
+
+  killLastCommand: =>
+    @commandRunnerView.killCommand()
 
   cancel: =>
     if @hasParent()
@@ -64,5 +68,5 @@ class RunCommandView extends View
   stringIsBlank: (str)->
     !str or /^\s*$/.test str
 
-  destroy: ->
+  destroy: =>
     @cancel()

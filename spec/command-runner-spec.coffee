@@ -32,9 +32,9 @@ describe "CommandRunner", ->
 
   describe '::run', ->
     it "creates a BufferedProcess", ->
-      spyOn @runner, 'process'
+      spyOn @runner, 'processor'
       @runner.runCommand()
-      expect(@runner.process).toHaveBeenCalledWith @runner.processParams()
+      expect(@runner.processor).toHaveBeenCalledWith @runner.processParams()
 
     it "resets the ::commandResult string", ->
       @runner.commandResult = "Goodbye World"

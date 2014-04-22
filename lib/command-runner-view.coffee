@@ -29,14 +29,23 @@ class CommandRunnerView extends View
     if @hasParent() then @hidePanel() else @showPanel()
 
   runCommand: (command)->
-    delete @commandRunner if @commandRunner?
+    if @commandRunner?
+      @commandRunner.kill()
+      delete @commandRunner
+
     @commandRunner = new CommandRunner(command, @render)
     @commandRunner.runCommand()
     @showPanel()
 
   reRunCommand: (e)=>
     if @commandRunner?
+      @commandRunner.kill()
+
       @commandRunner.runCommand()
       @showPanel()
     else
       e.abortKeyBinding()
+
+  killCommand: (e) =>
+    if @commandRunner?
+      @commandRunner.kill()

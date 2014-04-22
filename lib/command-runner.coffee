@@ -1,7 +1,7 @@
 {BufferedProcess} = require 'atom'
 
 class CommandRunner
-  process: BufferedProcess
+  processor: BufferedProcess
   commandResult: ''
 
   constructor: (command, callback)->
@@ -29,8 +29,12 @@ class CommandRunner
 
   runCommand: ->
     @commandResult = ''
-    new @process @processParams()
+    @process = new @processor @processParams()
     @returnCallback()
+
+  kill: ->
+    if @process?
+      @process.kill()
 
 module.exports =
   CommandRunner: CommandRunner
