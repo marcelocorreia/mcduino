@@ -1,13 +1,13 @@
-CommandRunnerView = require './command-runner-view'
+RunCommandView = require './run-command-view'
 
 module.exports =
-  commandRunnerView: null
+  runCommandView: null
 
   activate: (state) ->
-    @commandRunnerView = new CommandRunnerView(state.commandRunnerViewState)
+    @runCommandView = new RunCommandView(state.runCommandViewState)
 
   deactivate: ->
-    @commandRunnerView.destroy()
+    @runCommandView.destroy()
 
   serialize: ->
-    commandRunnerViewState: @commandRunnerView.serialize()
+    runCommandViewState: @runCommandView.serialize()

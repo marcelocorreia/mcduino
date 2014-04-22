@@ -11,15 +11,6 @@ class CommandRunnerView extends View
       @div class: "panel-body padded results", =>
         @pre '', outlet: 'results'
 
-  initialize: (serializeState) ->
-    atom.workspaceView.command "run-command:run", @promptForCommand
-    atom.workspaceView.command "run-command:re-run-last-command", @reRunCommand
-    atom.workspaceView.command "run-command:toggle-panel", @togglePanel
-    @subscribe atom.workspaceView, "core:cancel", @hidePanel
-
-  # Returns an object that can be retrieved when package is activated
-  serialize: ->
-
   # Tear down any state and detach
   destroy: ->
     delete @commandRunner
