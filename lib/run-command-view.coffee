@@ -44,7 +44,7 @@ class RunCommandView extends View
       @restoreFocusedElement()
       @detach()
     else
-      @commandRunnerView.cancel()
+      @commandRunnerView.hidePanel()
 
   storeFocusedElement: =>
     @previouslyFocused = $(':focus')
