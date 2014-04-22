@@ -1,4 +1,5 @@
 {BufferedProcess} = require 'atom'
+Utils = require './utils'
 
 class CommandRunner
   processor: BufferedProcess
@@ -17,7 +18,7 @@ class CommandRunner
 
   processParams: ->
     command: '/bin/bash'
-    args: ['-c', @command]
+    args: ['-c', @addPrecedentCommand(@command)]
     options:
       cwd: atom.project.getPath()
     stdout: @collectResults
@@ -35,6 +36,15 @@ class CommandRunner
   kill: ->
     if @process?
       @process.kill()
+
+  addPrecedentCommand: (command)=>
+    precedent = atom.config.get 'run-command.precedeCommandsWith'
+
+    if precedent? and !Utils.stringIsBlank(precedent)
+      @joinCommands [precedent, command]
+
+  joinCommands: (commands)=>
+    commands.join(' && ')
 
 module.exports =
   CommandRunner: CommandRunner

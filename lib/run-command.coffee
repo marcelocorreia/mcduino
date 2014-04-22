@@ -2,6 +2,9 @@ RunCommandView = require './run-command-view'
 CommandRunnerView = require './command-runner-view'
 
 module.exports =
+  configDefaults:
+    precedeCommandsWith: 'source $HOME/.bash_profile'
+
   runCommandView: null
   commandRunnerView: null
 
