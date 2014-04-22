@@ -10,7 +10,8 @@ describe "CommandRunner", ->
   describe '::processParams', ->
     it 'contains a parameters object', ->
       object =
-        command: @runner.command
+        command: '/bin/bash'
+        args: ['-c', @runner.command]
         options:
           cwd: atom.project.getPath()
         stdout: @runner.collectResults
