@@ -1,19 +1,23 @@
 {
-  "name": "ruby-quick-test",
-  "main": "./lib/ruby-quick-test",
-  "version": "0.3.0",
-  "description": "Run ruby test files quickly.",
+  "name": "run-command",
+  "main": "./lib/run-command",
+  "version": "0.0.1",
+  "description": "Run any Unix command.",
   "keywords": [
-    "ruby",
-    "test"
+    "command",
+    "terminal",
+    "execute",
+    "run"
   ],
-  "homepage": "https://github.com/philnash/ruby-quick-test",
-  "bugs": "https://github.com/philnash/ruby-quick-test/issues",
-  "author": "Phil Nash",
+  "homepage": "https://github.com/kylewlacy/run-command",
+  "bugs": "https://github.com/kylewlacy/run-command/issues",
+  "author": "Kyle Lacy",
   "activationEvents": [
-    "ruby-quick-test:run-tests"
+    "run-command:run",
+    "run-command:re-run-last-command",
+    "run-command:toggle-panel"
   ],
-  "repository": "https://github.com/philnash/ruby-quick-test",
+  "repository": "https://github.com/kylewlacy/run-command",
   "license": "MIT",
   "engines": {
     "atom": ">0.50.0"

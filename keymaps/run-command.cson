@@ -5,6 +5,6 @@
 # For more detailed documentation see
 # https://atom.io/docs/latest/advanced/keymaps
 '.editor':
-  'cmd-ctrl-t': 'ruby-quick-test:run-tests'
-  'cmd-ctrl-x': 'ruby-quick-test:toggle'
-  'cmd-ctrl-e': 'ruby-quick-test:re-run-last-test'
+  'ctrl-r': 'run-command:run'
+  'cmd-ctrl-x': 'run-command:toggle-panel'
+  'cmd-ctrl-r': 'run-command:re-run-last-command'
