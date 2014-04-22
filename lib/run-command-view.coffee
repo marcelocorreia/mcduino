@@ -1,6 +1,7 @@
 {$, View, EditorView} = require 'atom'
 {CommandRunner} = require './command-runner'
 {CommandRunnerView} = require './command-runner-view'
+Utils = require './utils'
 
 module.exports =
 class RunCommandView extends View
@@ -28,7 +29,7 @@ class RunCommandView extends View
   runCommand: =>
     command = @commandEntryView.getEditor().getText()
 
-    unless @stringIsBlank(command)
+    unless Utils.stringIsBlank(command)
       @commandRunnerView.runCommand(command)
     @cancel()
 
@@ -64,9 +65,6 @@ class RunCommandView extends View
     atom.workspaceView.append this
     @storeFocusedElement()
     @commandEntryView.focus()
-
-  stringIsBlank: (str)->
-    !str or /^\s*$/.test str
 
   destroy: =>
     @cancel()
