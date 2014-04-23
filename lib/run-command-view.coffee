@@ -6,7 +6,7 @@ Utils = require './utils'
 module.exports =
 class RunCommandView extends View
   @content: ->
-    @div class: 'run-command overlay from-top', =>
+    @div class: 'run-command padded overlay from-top', =>
       @subview 'commandEntryView', new EditorView(mini: true)
 
   initialize: (commandRunnerView)->
