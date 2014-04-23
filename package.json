@@ -1,12 +1,13 @@
 {
   "name": "run-command",
   "main": "./lib/run-command",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Run any Unix command.",
   "keywords": [
     "command",
     "terminal",
     "execute",
+    "unix",
     "run"
   ],
   "homepage": "https://github.com/kylewlacy/run-command",
@@ -15,7 +16,8 @@
   "activationEvents": [
     "run-command:run",
     "run-command:re-run-last-command",
-    "run-command:toggle-panel"
+    "run-command:toggle-panel",
+    "run-command:kill-last-command"
   ],
   "repository": "https://github.com/kylewlacy/run-command",
   "license": "MIT",

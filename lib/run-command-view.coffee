@@ -12,9 +12,9 @@ class RunCommandView extends View
   initialize: (commandRunnerView)->
     @commandRunnerView = commandRunnerView
 
-    atom.workspaceView.command "run-command:run", @toggle
-    atom.workspaceView.command "run-command:re-run-last-command", @reRunCommand
-    atom.workspaceView.command "run-command:toggle-panel", @togglePanel
+    atom.workspaceView.command 'run-command:run', @toggle
+    atom.workspaceView.command 'run-command:re-run-last-command', @reRunCommand
+    atom.workspaceView.command 'run-command:toggle-panel', @togglePanel
     atom.workspaceView.command 'run-command:kill-last-command', @killLastCommand
     @subscribe atom.workspaceView, 'core:confirm', @runCommand
     @subscribe atom.workspaceView, 'core:cancel', @cancel

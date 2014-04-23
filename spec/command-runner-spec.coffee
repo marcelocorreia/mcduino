@@ -7,8 +7,8 @@ describe "CommandRunner", ->
     @callback = jasmine.createSpy 'callback'
     @runner   = new CommandRunner 'echo Hello World', @callback
 
-  describe '::processParams', ->
-    it 'contains a parameters object', ->
+  describe "::processParams", ->
+    it "contains a parameters object", ->
       object =
         command: '/bin/bash'
         args: ['-c', atom.config.get 'run-command.precedeCommandsWith' + ' && ' + @runner.command]
@@ -19,7 +19,7 @@ describe "CommandRunner", ->
         exit: @runner.exit
       expect(@runner.processParams()).toEqual object
 
-  describe '::collectResults', ->
+  describe "::collectResults", ->
     it "appends the given arguments to ::commandResult", ->
       result = "Hello World"
       @runner.collectResults result
@@ -30,7 +30,7 @@ describe "CommandRunner", ->
       @runner.collectResults ''
       expect(@runner.returnCallback).toHaveBeenCalled()
 
-  describe '::run', ->
+  describe "::run", ->
     it "creates a BufferedProcess", ->
       spyOn @runner, 'processor'
       @runner.runCommand()
@@ -46,13 +46,13 @@ describe "CommandRunner", ->
       @runner.runCommand()
       expect(@runner.returnCallback).toHaveBeenCalled()
 
-  describe '::exit', ->
+  describe "::exit", ->
     it "invokes ::returnCallback", ->
       spyOn @runner, 'returnCallback'
       @runner.exit()
       expect(@runner.returnCallback).toHaveBeenCalled()
 
-  describe '::returnCallback', ->
+  describe "::returnCallback", ->
     it "invokes ::callback with ::command and ::commandResult", ->
       @runner.returnCallback()
       expect(@callback).toHaveBeenCalledWith @runner.command,

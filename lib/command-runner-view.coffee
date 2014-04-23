@@ -4,11 +4,11 @@
 module.exports =
 class CommandRunnerView extends View
   @content: ->
-    @div class: "inset-panel panel-bottom run-command", =>
-      @div class: "panel-heading", =>
+    @div class: 'inset-panel panel-bottom run-command', =>
+      @div class: 'panel-heading', =>
         @span 'Command: '
         @span outlet: 'header'
-      @div class: "panel-body padded results", outlet: 'resultsContainer', =>
+      @div class: 'panel-body padded results', outlet: 'resultsContainer', =>
         @pre '', outlet: 'results'
 
   destroy: ->

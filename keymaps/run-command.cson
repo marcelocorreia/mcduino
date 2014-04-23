@@ -5,7 +5,7 @@
 # For more detailed documentation see
 # https://atom.io/docs/latest/advanced/keymaps
 '.editor':
-  'ctrl-r':        'run-command:run'
-  'cmd-ctrl-x':    'run-command:toggle-panel'
+  'ctrl-r':         'run-command:run'
+  'cmd-ctrl-x':     'run-command:toggle-panel'
   'cmd-ctrl-alt-x': 'run-command:kill-last-command'
-  'cmd-ctrl-r':    'run-command:re-run-last-command'
+  'cmd-ctrl-r':     'run-command:re-run-last-command'
