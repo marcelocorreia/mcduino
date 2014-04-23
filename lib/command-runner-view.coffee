@@ -8,7 +8,7 @@ class CommandRunnerView extends View
       @div class: "panel-heading", =>
         @span 'Command: '
         @span outlet: 'header'
-      @div class: "panel-body padded results", =>
+      @div class: "panel-body padded results", outlet: 'resultsContainer', =>
         @pre '', outlet: 'results'
 
   destroy: ->
@@ -16,8 +16,14 @@ class CommandRunnerView extends View
     @detach()
 
   render: (command, results)=>
+    atBottom = @resultsContainer[0].scrollHeight <=
+      @resultsContainer[0].scrollTop + @resultsContainer.outerHeight()
+
     @header.text(command)
     @results.text(results)
+
+    if atBottom and atom.config.get 'run-command.snapCommandResultsToBottom'
+      @resultsContainer.scrollToBottom()
 
   hidePanel: =>
     @detach() if @hasParent()
