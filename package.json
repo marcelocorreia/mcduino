@@ -1,7 +1,7 @@
 {
   "name": "run-command",
   "main": "./lib/run-command",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Run any Unix command.",
   "keywords": [
     "command",
