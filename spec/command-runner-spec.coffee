@@ -11,7 +11,7 @@ describe "CommandRunner", ->
     it "contains a parameters object", ->
       object =
         command: '/bin/bash'
-        args: ['-c', atom.config.get 'run-command.precedeCommandsWith' + ' && ' + @runner.command]
+        args: ['-c', @runner.addPrecedentCommand(@runner.command), '-il']
         options:
           cwd: atom.project.getPath()
         stdout: @runner.collectResults
