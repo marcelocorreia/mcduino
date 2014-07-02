@@ -17,8 +17,8 @@ class CommandRunner
     @returnCallback()
 
   processParams: ->
-    command: '/bin/bash'
-    args: ['-c', @addPrecedentCommand(@command)]
+    command: if atom.config.get("run-command.shellCommand")? then atom.config.get("run-command.shellCommand") else '/bin/bash'
+    args: ['-c', @addPrecedentCommand(@command), '-il']
     options:
       cwd: atom.project.getPath()
     stdout: @collectResults
@@ -42,6 +42,8 @@ class CommandRunner
 
     if precedent? and !Utils.stringIsBlank(precedent)
       @joinCommands [precedent, command]
+    else
+      command
 
   joinCommands: (commands)=>
     commands.join(' && ')
