@@ -65,6 +65,8 @@ class RunCommandView extends View
     atom.workspaceView.append this
     @storeFocusedElement()
     @commandEntryView.focus()
+    editor = @commandEntryView.editor
+    editor.setSelectedBufferRange editor.getBuffer().getRange()
 
   destroy: =>
     @cancel()
