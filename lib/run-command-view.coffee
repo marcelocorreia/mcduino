@@ -1,4 +1,4 @@
-{$, View, EditorView} = require 'atom'
+{$, View, TextEditorView} = require 'atom-space-pen-views'
 {CommandRunner} = require './command-runner'
 {CommandRunnerView} = require './command-runner-view'
 Utils = require './utils'
@@ -7,7 +7,7 @@ module.exports =
 class RunCommandView extends View
   @content: ->
     @div class: 'run-command padded overlay from-top', =>
-      @subview 'commandEntryView', new EditorView(mini: true)
+      @subview 'commandEntryView', new TextEditorView(mini: true, placeholderText: 'rake spec')
 
   initialize: (commandRunnerView)->
     @commandRunnerView = commandRunnerView
@@ -16,18 +16,17 @@ class RunCommandView extends View
     atom.workspaceView.command 'run-command:re-run-last-command', @reRunCommand
     atom.workspaceView.command 'run-command:toggle-panel', @togglePanel
     atom.workspaceView.command 'run-command:kill-last-command', @killLastCommand
-    @subscribe atom.workspaceView, 'core:confirm', @runCommand
-    @subscribe atom.workspaceView, 'core:cancel', @cancel
+    atom.workspaceView.on 'core:confirm', @runCommand
+    atom.workspaceView.on 'core:cancel', @cancel
 
-    @commandEntryView.setPlaceholderText('rake spec')
-    @commandEntryView.hiddenInput.on 'focusout', =>
+    @commandEntryView.on 'focusout', =>
       @cancel()
 
 
   serialize: ->
 
   runCommand: =>
-    command = @commandEntryView.getEditor().getText()
+    command = @commandEntryView.getModel().getText()
 
     unless Utils.stringIsBlank(command)
       @commandRunnerView.runCommand(command)
@@ -65,7 +64,7 @@ class RunCommandView extends View
     atom.workspaceView.append this
     @storeFocusedElement()
     @commandEntryView.focus()
-    editor = @commandEntryView.editor
+    editor = @commandEntryView.getModel()
     editor.setSelectedBufferRange editor.getBuffer().getRange()
 
   destroy: =>

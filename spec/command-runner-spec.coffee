@@ -2,7 +2,6 @@
 {CommandRunner}   = require '../lib/command-runner'
 
 describe "CommandRunner", ->
-
   beforeEach ->
     @callback = jasmine.createSpy 'callback'
     @runner   = new CommandRunner 'echo Hello World', @callback
@@ -13,7 +12,7 @@ describe "CommandRunner", ->
         command: '/bin/bash'
         args: ['-c', @runner.addPrecedentCommand(@runner.command), '-il']
         options:
-          cwd: atom.project.getPath()
+          cwd: atom.project.getPaths()[0]
         stdout: @runner.collectResults
         stderr: @runner.collectResults
         exit: @runner.exit

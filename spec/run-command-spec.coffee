@@ -1,4 +1,4 @@
-{WorkspaceView, Workspace, Editor} = require 'atom'
+{Editor} = require 'atom'
 RunCommand = require '../lib/run-command'
 
 # Use the command `window:run-package-specs` (cmd-alt-ctrl-p) to run specs.

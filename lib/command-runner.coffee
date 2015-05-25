@@ -20,7 +20,7 @@ class CommandRunner
     command: if atom.config.get("run-command.shellCommand")? then atom.config.get("run-command.shellCommand") else '/bin/bash'
     args: ['-c', @addPrecedentCommand(@command), '-il']
     options:
-      cwd: atom.project.getPath()
+      cwd: atom.project.getPaths()[0]
     stdout: @collectResults
     stderr: @collectResults
     exit: @exit

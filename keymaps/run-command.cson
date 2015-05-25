@@ -4,7 +4,7 @@
 #
 # For more detailed documentation see
 # https://atom.io/docs/latest/advanced/keymaps
-'.editor':
+'atom-workspace':
   'ctrl-r':         'run-command:run'
   'cmd-ctrl-x':     'run-command:toggle-panel'
   'cmd-ctrl-alt-x': 'run-command:kill-last-command'
