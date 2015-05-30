@@ -10,12 +10,26 @@ class CommandRunner
     @process = new BufferedProcess
       command: 'bash'
       args: ['-c', command]
+      options:
+        cwd: @constructor.workingDirectory()
       stdout: (data) =>
         @emitter.emit('stdout', data)
       stderr: (data) =>
         @emitter.emit('stderr', data)
       exit: (code) =>
         @emitter.emit('exit', code)
+
+  @homeDirectory: ->
+    process.env['HOME'] || process.env['USERPROFILE'] || '/'
+
+  @workingDirectory: ->
+    editor = atom.workspace.getActiveTextEditor()
+    activePath = editor?.getPath()
+    relative = atom.project.relativizePath(activePath)
+    if activePath?
+      relative[0] || path.dirname(activePath)
+    else
+      atom.project.getPaths()?[0] || @homeDirectory()
 
   onCommand: (handler) ->
     @emitter.on 'command', handler
