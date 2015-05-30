@@ -44,6 +44,30 @@ describe "CommandOutputView", ->
 
       expect(view.output.text()).toEqual('foo\nbar\n')
 
+    it "displays the last command's exit code", ->
+      exitHandler = null
+
+      spyOn(@runner, 'onExit').andCallFake (handler) ->
+        exitHandler = handler
+
+      view = new CommandOutputView(@runner)
+
+      exitHandler(4)
+
+      expect(view.output.text()).toMatch(/(.*)code(.*)4/)
+
+    it "displays the last command's kill signal", ->
+      killHandler = null
+
+      spyOn(@runner, 'onKill').andCallFake (handler) ->
+        killHandler = handler
+
+      view = new CommandOutputView(@runner)
+
+      killHandler('SIGKILL')
+
+      expect(view.output.text()).toMatch(/SIGKILL/)
+
     it "clears the last command's output", ->
       [commandHandler, stdoutHandler, stderrHandler] = [null, null, null]
 

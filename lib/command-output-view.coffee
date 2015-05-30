@@ -25,6 +25,10 @@ class CommandOutputView extends View
       @addOutput(data)
     @subscriptions.add = runner.onStderr (data) =>
       @addOutput(data)
+    @subscriptions.add = runner.onExit (code) =>
+      @setExitCode(code)
+    @subscriptions.add = runner.onKill (signal) =>
+      @setKillSignal(signal)
 
   destroy: ->
     @subscriptions.destroy()
@@ -57,12 +61,25 @@ class CommandOutputView extends View
   clearOutput: ->
     @output.empty()
 
-  addOutput: (data) ->
+  addOutput: (data, classes) ->
     atBottom = @atBottomOfOutput()
 
     span = document.createElement('span')
     span.textContent = data
+
+    if classes?
+      for klass in classes
+        span.classList.add(klass)
+
     @output.append(span)
 
     if atBottom
       @scrollToBottomOfOutput()
+
+  setExitCode: (code) ->
+    message = 'Command exited with status code ' + code.toString()
+    @addOutput(message, ['exit', 'exit-status'])
+
+  setKillSignal: (signal) ->
+    message = 'Command killed with signal ' + signal
+    @addOutput(message, ['exit', 'kill-signal'])
