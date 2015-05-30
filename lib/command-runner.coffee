@@ -9,7 +9,7 @@ class CommandRunner
 
   spawnProcess: (command) ->
     @process = new BufferedProcess
-      command: 'bash'
+      command: atom.config.get('run-command.shellCommand') || '/bin/bash'
       args: ['-c', command]
       options:
         cwd: @constructor.workingDirectory()
