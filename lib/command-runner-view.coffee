@@ -31,6 +31,7 @@ class CommandRunnerView extends View
 
   show: ->
     @panel.show()
+    @scrollToBottomOfOutput()
 
   hide: ->
     @panel.hide()
