@@ -44,9 +44,9 @@ class CommandRunner
     @emitter.on 'kill', handler
 
   run: (command) ->
-    @emitter.emit('command', command)
     new Promise (resolve, reject) =>
       @kill()
+      @emitter.emit('command', command)
 
       result =
         stdout: ''
