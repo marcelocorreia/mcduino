@@ -1,71 +1,68 @@
 {$, View, TextEditorView} = require 'atom-space-pen-views'
-{CommandRunner} = require './command-runner'
-{CommandRunnerView} = require './command-runner-view'
 Utils = require './utils'
 
 module.exports =
 class RunCommandView extends View
   @content: ->
-    @div class: 'run-command padded overlay from-top', =>
-      @subview 'commandEntryView', new TextEditorView(mini: true, placeholderText: 'rake spec')
+    @div class: 'command-entry', =>
+      @subview 'commandEntryView', new TextEditorView
+        mini: true,
+        placeholderText: 'rake spec'
 
-  initialize: (commandRunnerView)->
-    @commandRunnerView = commandRunnerView
+  initialize: (runner) ->
+    @panel = atom.workspace.addModalPanel
+      item: @,
+      visible: false
 
-    atom.workspaceView.command 'run-command:run', @toggle
-    atom.workspaceView.command 'run-command:re-run-last-command', @reRunCommand
-    atom.workspaceView.command 'run-command:toggle-panel', @togglePanel
-    atom.workspaceView.command 'run-command:kill-last-command', @killLastCommand
-    atom.workspaceView.on 'core:confirm', @runCommand
-    atom.workspaceView.on 'core:cancel', @cancel
+    @runner = runner
+    @subscriptions = atom.commands.add @element,
+      'core:confirm': (event) =>
+        @confirm()
+        event.stopPropagation()
+      'core:cancel': (event) =>
+        @cancel()
+        event.stopPropagation()
 
-    @commandEntryView.on 'focusout', =>
+    @commandEntryView.on 'blur', =>
       @cancel()
 
+  destroy: ->
+    @subscriptions.destroy()
 
-  serialize: ->
+  show: ->
+    @panel.show()
 
-  runCommand: =>
-    command = @commandEntryView.getModel().getText()
-
-    unless Utils.stringIsBlank(command)
-      @commandRunnerView.runCommand(command)
-    @cancel()
-
-  reRunCommand: (e)=>
-    @commandRunnerView.reRunCommand(e)
-
-  killLastCommand: =>
-    @commandRunnerView.killCommand()
-
-  cancel: =>
-    if @hasParent()
-      @restoreFocusedElement()
-      @detach()
-    else
-      @commandRunnerView.hidePanel()
-
-  storeFocusedElement: =>
-    @previouslyFocused = $(':focus')
-
-  restoreFocusedElement: =>
-    if @previouslyFocused?
-      @previouslyFocused.focus()
-    else
-      atom.workspaceView.focus()
-
-  toggle: =>
-    if @hasParent() then @cancel() else @attach()
-
-  togglePanel: =>
-    @commandRunnerView.togglePanel()
-
-  attach: =>
-    atom.workspaceView.append this
     @storeFocusedElement()
     @commandEntryView.focus()
+
     editor = @commandEntryView.getModel()
     editor.setSelectedBufferRange editor.getBuffer().getRange()
 
-  destroy: =>
+  hide: ->
+    @panel.hide()
+
+  isVisible: ->
+    @panel.isVisible()
+
+
+
+  getCommand: ->
+    command = @commandEntryView.getModel().getText()
+    if(!Utils.stringIsBlank(command))
+      command
+
+  cancel: ->
+    @restoreFocusedElement()
+    @hide()
+
+  confirm: ->
+    if(@getCommand())
+      @runner.run(@getCommand())
+
     @cancel()
+
+  storeFocusedElement: ->
+    @previouslyFocused = $(document.activeElement)
+
+  restoreFocusedElement: ->
+    @previouslyFocused?.focus?()

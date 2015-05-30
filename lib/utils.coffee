@@ -1,4 +1,4 @@
 module.exports =
 class Utils
-  @stringIsBlank: (str)->
+  @stringIsBlank: (str) ->
     !str or /^\s*$/.test str

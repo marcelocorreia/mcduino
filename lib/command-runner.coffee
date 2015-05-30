@@ -1,52 +1,67 @@
-{BufferedProcess} = require 'atom'
-Utils = require './utils'
-
-class CommandRunner
-  processor: BufferedProcess
-  commandResult: ''
-
-  constructor: (command, callback)->
-    @command = command
-    @callback = callback
-
-  collectResults: (output) =>
-    @commandResult += output.toString()
-    @returnCallback()
-
-  exit: (code) =>
-    @returnCallback()
-
-  processParams: ->
-    command: if atom.config.get("run-command.shellCommand")? then atom.config.get("run-command.shellCommand") else '/bin/bash'
-    args: ['-c', @addPrecedentCommand(@command), '-il']
-    options:
-      cwd: atom.project.getPaths()[0]
-    stdout: @collectResults
-    stderr: @collectResults
-    exit: @exit
-
-  returnCallback: =>
-    @callback(@command, @commandResult)
-
-  runCommand: ->
-    @commandResult = ''
-    @process = new @processor @processParams()
-    @returnCallback()
-
-  kill: ->
-    if @process?
-      @process.kill()
-
-  addPrecedentCommand: (command)=>
-    precedent = atom.config.get 'run-command.precedeCommandsWith'
-
-    if precedent? and !Utils.stringIsBlank(precedent)
-      @joinCommands [precedent, command]
-    else
-      command
-
-  joinCommands: (commands)=>
-    commands.join(' && ')
+{BufferedProcess, Emitter, CompositeDisposable} = require 'atom'
 
 module.exports =
-  CommandRunner: CommandRunner
+class CommandRunner
+  constructor: ->
+    @subscriptions = new CompositeDisposable()
+    @emitter = new Emitter()
+
+  spawnProcess: (command) ->
+    @process = new BufferedProcess
+      command: 'bash'
+      args: ['-c', command]
+      stdout: (data) =>
+        @emitter.emit('stdout', data)
+      stderr: (data) =>
+        @emitter.emit('stderr', data)
+      exit: (code) =>
+        @emitter.emit('exit', code)
+
+  onCommand: (handler) ->
+    @emitter.on 'command', handler
+  onStdout: (handler) ->
+    @emitter.on 'stdout', handler
+  onStderr: (handler) ->
+    @emitter.on 'stderr', handler
+  onExit: (handler) ->
+    @emitter.on 'exit', handler
+  onKill: (handler) ->
+    @emitter.on 'kill', handler
+
+  run: (command) ->
+    @emitter.emit('command', command)
+    new Promise (resolve, reject) =>
+      @kill()
+
+      result =
+        stdout: ''
+        stderr: ''
+        output: ''
+        status: null
+        signal: null
+
+      @spawnProcess(command)
+
+      @subscriptions.add @onStdout (data) =>
+        result.stdout += data
+        result.output += data
+      @subscriptions.add @onStderr (data) =>
+        result.stderr += data
+        result.output += data
+      @subscriptions.add @onExit (code) =>
+        result.status = code
+        resolve(result)
+      @subscriptions.add @onKill (signal) =>
+        result.signal = signal
+        resolve(result)
+
+  kill: (signal) ->
+    signal ||= 'SIGTERM'
+
+    if @process?
+      @emitter.emit('kill', signal)
+      @process.kill(signal)
+      @process = null
+
+      @subscriptions.dispose()
+      @subscriptions.clear()

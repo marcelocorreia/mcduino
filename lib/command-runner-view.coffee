@@ -1,57 +1,67 @@
+{CompositeDisposable} = require 'atom'
 {View} = require 'atom-space-pen-views'
 {CommandRunner} = require './command-runner'
+Utils = require './utils'
 
 module.exports =
 class CommandRunnerView extends View
   @content: ->
-    @div class: 'inset-panel panel-bottom run-command', =>
-      @div class: 'panel-heading', =>
+    @div class: 'command-runner', =>
+      @header class: 'panel-heading', =>
         @span 'Command: '
-        @span outlet: 'header'
-      @div class: 'panel-body padded results', outlet: 'resultsContainer', =>
-        @pre '', outlet: 'results'
+        @span class: 'command-name', outlet: 'header'
+      @div class: 'panel-body', outlet: 'outputContainer', =>
+        @pre class: 'command-output', outlet: 'output'
+
+  initialize: (runner) ->
+    @panel = atom.workspace.addBottomPanel
+      item: @,
+      visible: false
+
+    @subscriptions = new CompositeDisposable()
+    @subscriptions.add = runner.onCommand (command) =>
+      @setCommand(command)
+    @subscriptions.add = runner.onStdout (data) =>
+      @addOutput(data)
+    @subscriptions.add = runner.onStderr (data) =>
+      @addOutput(data)
 
   destroy: ->
-    delete @commandRunner
-    @detach()
+    @subscriptions.destroy()
 
-  render: (command, results)=>
-    atBottom = @resultsContainer[0].scrollHeight <=
-      @resultsContainer[0].scrollTop + @resultsContainer.outerHeight()
+  show: ->
+    @panel.show()
 
+  hide: ->
+    @panel.hide()
+
+  isVisible: ->
+    @panel.isVisible()
+
+
+
+  atBottomOfOutput: ->
+    @output[0].scrollHeight <= @output.scrollTop() + @output.outerHeight()
+
+  scrollToBottomOfOutput: ->
+    @output.scrollToBottom()
+
+
+
+  setCommand: (command) ->
+    @clearOutput()
     @header.text(command)
-    @results.text(results)
+    @show()
 
-    if atBottom and atom.config.get 'run-command.snapCommandResultsToBottom'
-      @resultsContainer.scrollToBottom()
+  clearOutput: ->
+    @output.empty()
 
-  hidePanel: =>
-    @detach() if @hasParent()
+  addOutput: (data) ->
+    atBottom = @atBottomOfOutput()
 
-  showPanel: =>
-    atom.workspaceView.prependToBottom(this) unless @hasParent()
+    span = document.createElement('span')
+    span.textContent = data
+    @output.append(span)
 
-  togglePanel: =>
-    if @hasParent() then @hidePanel() else @showPanel()
-
-  runCommand: (command)->
-    if @commandRunner?
-      @commandRunner.kill()
-      delete @commandRunner
-
-    @commandRunner = new CommandRunner(command, @render)
-    @commandRunner.runCommand()
-    @showPanel()
-
-  reRunCommand: (e)=>
-    if @commandRunner?
-      @commandRunner.kill()
-
-      @commandRunner.runCommand()
-      @showPanel()
-    else
-      e.abortKeyBinding()
-
-  killCommand: (e) =>
-    if @commandRunner?
-      @commandRunner.kill()
+    if atBottom
+      @scrollToBottomOfOutput()
