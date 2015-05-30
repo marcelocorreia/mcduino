@@ -4,10 +4,10 @@ RunCommandView = require './run-command-view'
 CommandOutputView = require './command-output-view'
 
 module.exports =
-  configDefaults:
-    shellCommand: '/bin/bash'
-    precedeCommandsWith: null
-    snapCommandResultsToBottom: true
+  config:
+    shellCommand:
+      type: 'string'
+      default: '/bin/bash'
 
   activate: (state) ->
     @runner = new CommandRunner()
