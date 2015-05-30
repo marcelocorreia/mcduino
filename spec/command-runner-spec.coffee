@@ -28,7 +28,7 @@ describe "CommandRunner", ->
         expect(result.output).toEqual("\x1B[31mHello\x1B[0m, wrold!\n")
 
   it "can kill a long-running command", ->
-    command = 'while 1; do echo -n; done'
+    command = 'while true; do echo -n; done'
 
     promise = @runner.run(command)
     @runner.kill('SIGKILL')
@@ -38,7 +38,7 @@ describe "CommandRunner", ->
         expect(result.signal).toEqual('SIGKILL')
 
   it "kills one command before starting another", ->
-    firstCommand = 'while 1; do echo -n; done'
+    firstCommand = 'while true; do echo -n; done'
     secondCommand = 'echo "foo"'
 
     firstPromise = @runner.run(firstCommand)
@@ -51,7 +51,6 @@ describe "CommandRunner", ->
     waitsForPromise ->
       secondPromise.then (result) ->
         expect(result.output).toEqual("foo\n")
-
 
   describe "events", ->
     it "emits an event when running a command", ->
@@ -94,7 +93,7 @@ describe "CommandRunner", ->
           expect(handler.calls.length).toEqual(1)
 
     it "emits an event on kill", ->
-      command = 'while 1; do echo -n; done'
+      command = 'while true; do echo -n; done'
       handler = jasmine.createSpy('onKill')
 
       @runner.onKill(handler)
