@@ -15,12 +15,8 @@ module.exports =
     @commandRunnerView = new CommandRunnerView(@runner)
     @runCommandView = new RunCommandView(@runner)
 
-    @runner.onCommand (command) =>
-      @saveLastCommand(command)
-
     @subscriptions = atom.commands.add 'atom-workspace',
       'run-command:run': => @run()
-      'run-command:re-run-last-command': => @reRunLastCommand(),
       'run-command:toggle-panel': => @togglePanel(),
       'run-command:kill-last-command': => @killLastCommand()
 
@@ -33,17 +29,8 @@ module.exports =
 
 
 
-  saveLastCommand: (command) ->
-    @lastCommand = command
-
-
-
   run: ->
     @runCommandView.show()
-
-  reRunLastCommand: ->
-    if @lastCommand?
-      @runner.run(@lastCommand)
 
   togglePanel: ->
     if @commandRunnerView.isVisible()
