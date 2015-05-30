@@ -77,9 +77,9 @@ class CommandOutputView extends View
       @scrollToBottomOfOutput()
 
   setExitCode: (code) ->
-    message = 'Command exited with status code ' + code.toString()
+    message = 'Command exited with status code ' + code.toString() + '\n'
     @addOutput(message, ['exit', 'exit-status'])
 
   setKillSignal: (signal) ->
-    message = 'Command killed with signal ' + signal
+    message = 'Command killed with signal ' + signal + '\n'
     @addOutput(message, ['exit', 'kill-signal'])
