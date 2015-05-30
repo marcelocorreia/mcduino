@@ -1,4 +1,5 @@
 {BufferedProcess, Emitter, CompositeDisposable} = require 'atom'
+path = require 'path'
 
 module.exports =
 class CommandRunner
