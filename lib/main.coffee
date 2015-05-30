@@ -1,7 +1,7 @@
 {ContentDisposable} = require 'atom'
 CommandRunner = require './command-runner'
 RunCommandView = require './run-command-view'
-CommandRunnerView = require './command-runner-view'
+CommandOutputView = require './command-output-view'
 
 module.exports =
   configDefaults:
@@ -12,7 +12,7 @@ module.exports =
   activate: (state) ->
     @runner = new CommandRunner()
 
-    @commandRunnerView = new CommandRunnerView(@runner)
+    @commandOutputView = new CommandOutputView(@runner)
     @runCommandView = new RunCommandView(@runner)
 
     @subscriptions = atom.commands.add 'atom-workspace',
@@ -22,7 +22,7 @@ module.exports =
 
   deactivate: ->
     @runCommandView.destroy()
-    @commandRunnerView.destroy()
+    @commandOutputView.destroy()
 
   dispose: ->
     @subscriptions.dispose()
@@ -33,10 +33,10 @@ module.exports =
     @runCommandView.show()
 
   togglePanel: ->
-    if @commandRunnerView.isVisible()
-      @commandRunnerView.hide()
+    if @commandOutputView.isVisible()
+      @commandOutputView.hide()
     else
-      @commandRunnerView.show()
+      @commandOutputView.show()
 
   killLastCommand: ->
     @runner.kill()

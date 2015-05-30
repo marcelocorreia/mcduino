@@ -1,9 +1,8 @@
 {Editor} = require 'atom'
 CommandRunner = require '../lib/command-runner'
-CommandRunnerView = require '../lib/command-runner-view'
-RunCommand = require '../lib/run-command'
+CommandOutputView = require '../lib/command-output-view'
 
-describe "CommandRunnerView", ->
+describe "CommandOutputView", ->
   beforeEach ->
     @runner = new CommandRunner()
 
@@ -13,7 +12,7 @@ describe "CommandRunnerView", ->
       spyOn(@runner, 'onCommand').andCallFake (handler) ->
         commandHandler = handler
 
-      view = new CommandRunnerView(@runner)
+      view = new CommandOutputView(@runner)
       spyOn(view, 'show')
 
       commandHandler('echo "foo"')
@@ -25,7 +24,7 @@ describe "CommandRunnerView", ->
       spyOn(@runner, 'onCommand').andCallFake (handler) ->
         commandHandler = handler
 
-      view = new CommandRunnerView(@runner)
+      view = new CommandOutputView(@runner)
       commandHandler('echo "foo"')
 
       expect(view.header.text()).toEqual('echo "foo"')
@@ -38,7 +37,7 @@ describe "CommandRunnerView", ->
       spyOn(@runner, 'onStderr').andCallFake (handler) ->
         stderrHandler = handler
 
-      view = new CommandRunnerView(@runner)
+      view = new CommandOutputView(@runner)
 
       stdoutHandler('foo\n')
       stderrHandler('bar\n')
@@ -53,7 +52,7 @@ describe "CommandRunnerView", ->
       spyOn(@runner, 'onStdout').andCallFake (handler) ->
         stdoutHandler = handler
 
-      view = new CommandRunnerView(@runner)
+      view = new CommandOutputView(@runner)
 
       commandHandler('echo "foo"; echo "bar"')
       stdoutHandler('foo\nbar\n')
@@ -65,7 +64,7 @@ describe "CommandRunnerView", ->
 
   describe "displaying a command's output", ->
     it "stays locked to the bottom of the output area", ->
-      view = new CommandRunnerView(@runner)
+      view = new CommandOutputView(@runner)
 
       spyOn(view, 'atBottomOfOutput').andReturn(true)
       spyOn(view, 'scrollToBottomOfOutput')
@@ -74,7 +73,7 @@ describe "CommandRunnerView", ->
       expect(view.scrollToBottomOfOutput).toHaveBeenCalled()
 
     it "unlocks from the bottom of the output area when scrolling up", ->
-      view = new CommandRunnerView(@runner)
+      view = new CommandOutputView(@runner)
 
       spyOn(view, 'atBottomOfOutput').andReturn(false)
       spyOn(view, 'scrollToBottomOfOutput')

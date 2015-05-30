@@ -4,7 +4,7 @@
 Utils = require './utils'
 
 module.exports =
-class CommandRunnerView extends View
+class CommandOutputView extends View
   @content: ->
     @div class: 'command-runner', =>
       @header class: 'panel-heading', =>

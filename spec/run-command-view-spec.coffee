@@ -1,7 +1,6 @@
 {Editor} = require 'atom'
 CommandRunner = require '../lib/command-runner'
 RunCommandView = require '../lib/run-command-view'
-RunCommand = require '../lib/run-command'
 
 describe "RunCommandView", ->
   beforeEach ->
