@@ -155,25 +155,19 @@ class CommandOutputView extends View
   classesForAttrs: (attrs) ->
     ["ansi-fg-#{attrs?.fg || 'default'}", "ansi-bg-#{attrs?.bg || 'default'}"]
 
-  colorizeNode: (node) ->
-    parent = document.createElement('span')
-    parent.appendChild(node)
+  createOutputNode: (text) ->
+    node = $('<span />').text(text)
+    parent = $('<span />').append(node)
 
-    colorCodeRegex = /\x1B\[([0-9;]+)m/g
-    colorizedHtml = $(parent).html().replace colorCodeRegex, (_, matches) =>
+    colorCodeRegex = /\x1B\[([0-9;]*)m/g
+    colorizedHtml = parent.html().replace colorCodeRegex, (_, matches) =>
       codes = matches.split(';').map((x) -> parseInt(x, 10))
       @attrs = @applyCodesToAttrs(codes, @attrs)
       classes = @classesForAttrs(@attrs)
 
       "</span><span class='#{classes.join(' ')}'>"
 
-    $(parent).html(colorizedHtml)
-    parent
-
-  createOutputNode: (text) ->
-    node = document.createElement('span')
-    node.textContent = text
-    @colorizeNode(node)
+    parent.html(colorizedHtml)
 
 
 
@@ -183,8 +177,7 @@ class CommandOutputView extends View
     node = @createOutputNode(data)
 
     if classes?
-      for klass in classes
-        node.classList.add(klass)
+      node.addClass(classes.join(' '))
 
     @output.append(node)
 
