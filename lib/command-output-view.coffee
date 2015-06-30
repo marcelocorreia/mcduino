@@ -1,5 +1,5 @@
 {CompositeDisposable} = require 'atom'
-{View} = require 'atom-space-pen-views'
+{$, View} = require 'atom-space-pen-views'
 {CommandRunner} = require './command-runner'
 Utils = require './utils'
 
@@ -12,6 +12,8 @@ class CommandOutputView extends View
         @span class: 'command-name', outlet: 'header'
       @div class: 'panel-body', outlet: 'outputContainer', =>
         @pre class: 'command-output', outlet: 'output'
+
+  attrs: null
 
   initialize: (runner) ->
     @panel = atom.workspace.addBottomPanel
@@ -61,17 +63,133 @@ class CommandOutputView extends View
   clearOutput: ->
     @output.empty()
 
+
+
+  classesForAnsiCodes: (codes) ->
+    codes?.map (code) ->
+      switch code
+        when 39 then  'ansi-default-fg'
+        when 30 then  'ansi-black-fg'
+        when 31 then  'ansi-red-fg'
+        when 32 then  'ansi-green-fg'
+        when 33 then  'ansi-yellow-fg'
+        when 34 then  'ansi-blue-fg'
+        when 35 then  'ansi-magenta-fg'
+        when 36 then  'ansi-cyan-fg'
+        when 37 then  'ansi-light-gray-fg'
+        when 90 then  'ansi-dark-gray-fg'
+        when 91 then  'ansi-light-red-fg'
+        when 92 then  'ansi-light-green-fg'
+        when 93 then  'ansi-light-yellow-fg'
+        when 94 then  'ansi-light-blue-fg'
+        when 95 then  'ansi-light-magenta-fg'
+        when 96 then  'ansi-light-cyan-fg'
+        when 97 then  'ansi-white-fg'
+
+        when 49 then  'ansi-default-bg'
+        when 40 then  'ansi-black-bg'
+        when 41 then  'ansi-red-bg'
+        when 42 then  'ansi-green-bg'
+        when 43 then  'ansi-yellow-bg'
+        when 44 then  'ansi-blue-bg'
+        when 45 then  'ansi-magenta-bg'
+        when 46 then  'ansi-cyan-bg'
+        when 47 then  'ansi-light-gray-bg'
+        when 100 then 'ansi-dark-gray-bg'
+        when 101 then 'ansi-light-red-bg'
+        when 102 then 'ansi-light-green-bg'
+        when 103 then 'ansi-light-yellow-bg'
+        when 104 then 'ansi-light-blue-bg'
+        when 105 then 'ansi-light-magenta-bg'
+        when 106 then 'ansi-light-cyan-bg'
+        when 107 then 'ansi-white-bg'
+    .filter((x) -> x?)
+
+  attrsForCodes: (codes) ->
+    attrs = {}
+    for code in codes
+      debugger
+      switch code
+        when 0
+          attrs.fg = 'default'
+          attrs.bg = 'default'
+
+        when 39 then attrs.fg = 'default'
+        when 30 then attrs.fg = 'black'
+        when 31 then attrs.fg = 'red'
+        when 32 then attrs.fg = 'green'
+        when 33 then attrs.fg = 'yellow'
+        when 34 then attrs.fg = 'blue'
+        when 35 then attrs.fg = 'magenta'
+        when 36 then attrs.fg = 'cyan'
+        when 37 then attrs.fg = 'light-gray'
+        when 90 then attrs.fg = 'dark-gray'
+        when 91 then attrs.fg = 'light-red'
+        when 92 then attrs.fg = 'light-green'
+        when 93 then attrs.fg = 'light-yellow'
+        when 94 then attrs.fg = 'light-blue'
+        when 95 then attrs.fg = 'light-magenta'
+        when 96 then attrs.fg = 'light-cyan'
+        when 97 then attrs.fg = 'white'
+
+        when 49 then attrs.bg = 'default'
+        when 40 then attrs.bg = 'black'
+        when 41 then attrs.bg = 'red'
+        when 42 then attrs.bg = 'green'
+        when 43 then attrs.bg = 'yellow'
+        when 44 then attrs.bg = 'blue'
+        when 45 then attrs.bg = 'magenta'
+        when 46 then attrs.bg = 'cyan'
+        when 47 then attrs.bg = 'light-gray'
+        when 100 then attrs.bg = 'dark-gray'
+        when 101 then attrs.bg = 'light-red'
+        when 102 then attrs.bg = 'light-green'
+        when 103 then attrs.bg = 'light-yellow'
+        when 104 then attrs.bg = 'light-blue'
+        when 105 then attrs.bg = 'light-magenta'
+        when 106 then attrs.bg = 'light-cyan'
+        when 107 then attrs.bg = 'white'
+    attrs
+
+  applyCodesToAttrs: (codes, attrs) ->
+    next = @attrsForCodes(codes)
+    $.extend({}, attrs || {}, next)
+
+  classesForAttrs: (attrs) ->
+    ["ansi-fg-#{attrs?.fg || 'default'}", "ansi-bg-#{attrs?.bg || 'default'}"]
+
+  colorizeNode: (node) ->
+    parent = document.createElement('span')
+    parent.appendChild(node)
+
+    colorCodeRegex = /\x1B\[([0-9;]+)m/g
+    colorizedHtml = $(parent).html().replace colorCodeRegex, (_, matches) =>
+      codes = matches.split(';').map((x) -> parseInt(x, 10))
+      @attrs = @applyCodesToAttrs(codes, @attrs)
+      classes = @classesForAttrs(@attrs)
+
+      "</span><span class='#{classes.join(' ')}'>"
+
+    $(parent).html(colorizedHtml)
+    parent
+
+  createOutputNode: (text) ->
+    node = document.createElement('span')
+    node.textContent = text
+    @colorizeNode(node)
+
+
+
   addOutput: (data, classes) ->
     atBottom = @atBottomOfOutput()
 
-    span = document.createElement('span')
-    span.textContent = data
+    node = @createOutputNode(data)
 
     if classes?
       for klass in classes
-        span.classList.add(klass)
+        node.classList.add(klass)
 
-    @output.append(span)
+    @output.append(node)
 
     if atBottom
       @scrollToBottomOfOutput()

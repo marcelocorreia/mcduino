@@ -1,4 +1,5 @@
 {Editor} = require 'atom'
+{$} = require 'atom-space-pen-views'
 CommandRunner = require '../lib/command-runner'
 CommandOutputView = require '../lib/command-output-view'
 
@@ -104,3 +105,20 @@ describe "CommandOutputView", ->
 
       view.addOutput('foo')
       expect(view.scrollToBottomOfOutput).not.toHaveBeenCalled()
+
+    it "colorizes the command's output", ->
+      stdoutHandler = null
+
+      spyOn(@runner, 'onStdout').andCallFake (handler) ->
+        stdoutHandler = handler
+
+      view = new CommandOutputView(@runner)
+
+      stdoutHandler('\x1B[31mHello, \x1B[40mwrold\x1B[0m!\n')
+
+      expect(view.output.text()).toEqual('Hello, wrold!\n')
+      window.viewOutput = view.output
+      expect($('.ansi-fg-red', view.output).text()).toEqual('Hello, wrold')
+      expect($('.ansi-bg-black', view.output).text()).toEqual('wrold')
+      expect($('.ansi-fg-default.ansi-bg-default', view.output).text())
+        .toEqual('!\n')
