@@ -23,12 +23,10 @@ class CommandOutputView extends View
     @subscriptions = new CompositeDisposable()
     @subscriptions.add = runner.onCommand (command) =>
       @setCommand(command)
-    @subscriptions.add = runner.onStdout (data) =>
+    @subscriptions.add = runner.onData (data) =>
       @addOutput(data)
-    @subscriptions.add = runner.onStderr (data) =>
-      @addOutput(data)
-    @subscriptions.add = runner.onExit (code) =>
-      @setExitCode(code)
+    @subscriptions.add = runner.onExit =>
+      @setExited()
     @subscriptions.add = runner.onKill (signal) =>
       @setKillSignal(signal)
 
@@ -193,9 +191,9 @@ class CommandOutputView extends View
     if atBottom
       @scrollToBottomOfOutput()
 
-  setExitCode: (code) ->
-    message = 'Command exited with status code ' + code.toString() + '\n'
-    @addOutput(message, ['exit', 'exit-status'])
+  setExited: ->
+    message = 'Command exited\n'
+    @addOutput(message, ['exit', 'exited'])
 
   setKillSignal: (signal) ->
     message = 'Command killed with signal ' + signal + '\n'

@@ -14,11 +14,11 @@ class CommandRunner
       options:
         cwd: @constructor.workingDirectory()
       stdout: (data) =>
-        @emitter.emit('stdout', data)
+        @emitter.emit('data', data)
       stderr: (data) =>
-        @emitter.emit('stderr', data)
-      exit: (code) =>
-        @emitter.emit('exit', code)
+        @emitter.emit('data', data)
+      exit: =>
+        @emitter.emit('exit')
 
   @homeDirectory: ->
     process.env['HOME'] || process.env['USERPROFILE'] || '/'
@@ -34,10 +34,8 @@ class CommandRunner
 
   onCommand: (handler) ->
     @emitter.on 'command', handler
-  onStdout: (handler) ->
-    @emitter.on 'stdout', handler
-  onStderr: (handler) ->
-    @emitter.on 'stderr', handler
+  onData: (handler) ->
+    @emitter.on 'data', handler
   onExit: (handler) ->
     @emitter.on 'exit', handler
   onKill: (handler) ->
@@ -49,22 +47,16 @@ class CommandRunner
       @emitter.emit('command', command)
 
       result =
-        stdout: ''
-        stderr: ''
         output: ''
-        status: null
+        exited: false
         signal: null
 
       @spawnProcess(command)
 
-      @subscriptions.add @onStdout (data) =>
-        result.stdout += data
+      @subscriptions.add @onData (data) =>
         result.output += data
-      @subscriptions.add @onStderr (data) =>
-        result.stderr += data
-        result.output += data
-      @subscriptions.add @onExit (code) =>
-        result.status = code
+      @subscriptions.add @onExit =>
+        result.exited = true
         resolve(result)
       @subscriptions.add @onKill (signal) =>
         result.signal = signal

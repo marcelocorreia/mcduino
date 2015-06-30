@@ -10,7 +10,7 @@ describe "CommandRunner", ->
     waitsForPromise =>
       @runner.run(command).then (result) ->
         expect(result.output).toEqual("Hello, wrold!\n")
-        expect(result.status).toEqual(0)
+        expect(result.exited).toBe(true)
 
   it "runs commands in the working directory", ->
     spyOn(CommandRunner, 'workingDirectory').andReturn('/usr')
@@ -24,10 +24,8 @@ describe "CommandRunner", ->
     command = 'echo "out"; echo "more out"; >&2 echo "error"; false'
     waitsForPromise =>
       @runner.run(command).then (result) ->
-        expect(result.stdout).toEqual("out\nmore out\n")
-        expect(result.stderr).toEqual("error\n")
         expect(result.output).toEqual("out\nmore out\nerror\n")
-        expect(result.status).not.toEqual(0)
+        expect(result.exited).toBe(true)
 
   it "returns raw escape codes", ->
     command = 'echo -e "\\x1B[31mHello\\033[0m, wrold!"'
@@ -112,19 +110,15 @@ describe "CommandRunner", ->
     it "emits events on output", ->
       command = 'echo "foo"; >&2 echo "bar"'
 
-      stdoutHandler = jasmine.createSpy('onStdout')
-      stderrHandler = jasmine.createSpy('onStderr')
+      dataHandler = jasmine.createSpy('onData')
 
-      @runner.onStdout(stdoutHandler)
-      @runner.onStderr(stderrHandler)
+      @runner.onData(dataHandler)
 
       waitsForPromise =>
         @runner.run(command).then ->
-          expect(stdoutHandler).toHaveBeenCalledWith("foo\n")
-          expect(stdoutHandler.calls.length).toEqual(1)
-
-          expect(stderrHandler).toHaveBeenCalledWith("bar\n")
-          expect(stderrHandler.calls.length).toEqual(1)
+          expect(dataHandler).toHaveBeenCalledWith("foo\n")
+          expect(dataHandler).toHaveBeenCalledWith("bar\n")
+          expect(dataHandler.calls.length).toEqual(2)
 
     it "emits an event on exit", ->
       command = 'echo "Hello, wrold!"'
@@ -134,7 +128,7 @@ describe "CommandRunner", ->
 
       waitsForPromise =>
         @runner.run(command).then ->
-          expect(handler).toHaveBeenCalledWith(0)
+          expect(handler).toHaveBeenCalled()
           expect(handler.calls.length).toEqual(1)
 
     it "emits an event on kill", ->
