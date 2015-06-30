@@ -108,7 +108,6 @@ class CommandOutputView extends View
   attrsForCodes: (codes) ->
     attrs = {}
     for code in codes
-      debugger
       switch code
         when 0
           attrs.fg = 'default'
