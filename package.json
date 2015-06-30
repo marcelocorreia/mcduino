@@ -26,6 +26,7 @@
     "atom": ">=0.174.0 <2.0.0"
   },
   "dependencies": {
-    "atom-space-pen-views": "^2.0.3"
+    "atom-space-pen-views": "^2.0.3",
+    "pty.js": "https://github.com/chjj/pty.js/archive/master.tar.gz"
   }
 }
