@@ -1,5 +1,6 @@
 {BufferedProcess, Emitter, CompositeDisposable} = require 'atom'
 path = require 'path'
+pty = require 'pty.js'
 
 module.exports =
 class CommandRunner
@@ -8,17 +9,16 @@ class CommandRunner
     @emitter = new Emitter()
 
   spawnProcess: (command) ->
-    @process = new BufferedProcess
-      command: atom.config.get('run-command.shellCommand') || '/bin/bash'
-      args: ['-c', command]
-      options:
-        cwd: @constructor.workingDirectory()
-      stdout: (data) =>
-        @emitter.emit('data', data)
-      stderr: (data) =>
-        @emitter.emit('data', data)
-      exit: =>
-        @emitter.emit('exit')
+    shell = atom.config.get('run-command.shellCommadn') || '/bin/bash'
+    @term = pty.spawn shell, ['-c', command],
+      name: 'xterm-color'
+      cwd: @constructor.workingDirectory()
+      env: process.env
+
+    @term.on 'data', (data) =>
+      @emitter.emit('data', data)
+    @term.on 'exit', =>
+      @emitter.emit('exit')
 
   @homeDirectory: ->
     process.env['HOME'] || process.env['USERPROFILE'] || '/'
@@ -65,10 +65,11 @@ class CommandRunner
   kill: (signal) ->
     signal ||= 'SIGTERM'
 
-    if @process?
+    if @term?
       @emitter.emit('kill', signal)
-      @process.kill(signal)
-      @process = null
+      process.kill(@term.pid, signal)
+      @term.destroy()
+      @term = null
 
       @subscriptions.dispose()
       @subscriptions.clear()
