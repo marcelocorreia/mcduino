@@ -112,10 +112,10 @@ describe "CommandOutputView", ->
 
       view = new CommandOutputView(@runner)
 
-      dataHandler('\x1B[31mHello, \x1B[40mwrold\x1B[0m!\n')
+      dataHandler('\x1B[31mHello, \x1B[40mwro\x1B[;;;ml\x1B[md\x1B[0m!\n')
 
       expect(view.output.text()).toEqual('Hello, wrold!\n')
-      expect($('.ansi-fg-red', view.output).text()).toEqual('Hello, wrold')
-      expect($('.ansi-bg-black', view.output).text()).toEqual('wrold')
+      expect($('.ansi-fg-red', view.output).text()).toEqual('Hello, wro')
+      expect($('.ansi-bg-black', view.output).text()).toEqual('wro')
       expect($('.ansi-fg-default.ansi-bg-default', view.output).text())
-        .toEqual('!\n')
+        .toEqual('ld!\n')

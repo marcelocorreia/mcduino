@@ -161,7 +161,13 @@ class CommandOutputView extends View
 
     colorCodeRegex = /\x1B\[([0-9;]*)m/g
     colorizedHtml = parent.html().replace colorCodeRegex, (_, matches) =>
-      codes = matches.split(';').map((x) -> parseInt(x, 10))
+      codes = matches?.split(';')
+                .map((x) -> parseInt(x, 10))
+                .filter((x) -> !isNaN(x))
+
+      if codes.length == 0
+        codes = [0]
+
       @attrs = @applyCodesToAttrs(codes, @attrs)
       classes = @classesForAttrs(@attrs)
 
