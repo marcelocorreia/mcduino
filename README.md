@@ -23,6 +23,6 @@ Put it all together, and you can do this:
 
 # TODO
 - [ ] Show/edit the working directory
-- [ ] ANSI color codes
+- [x] ~~ANSI color codes~~
 - [ ] Resizable output
 - [ ] Editor variables (`$ATOM_PROJECT` for the current project directory, etc.)
