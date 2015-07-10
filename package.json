@@ -1,8 +1,8 @@
 {
-  "name": "run-command",
+  "name": "mcduino",
   "main": "./lib/main",
   "version": "0.3.0",
-  "description": "Run any Unix command.",
+  "description": "Arduino for Atom",
   "keywords": [
     "command",
     "terminal",
@@ -20,7 +20,7 @@
       "run-command:kill-last-command"
     ]
   },
-  "repository": "https://github.com/kylewlacy/run-command",
+  "repository": "https://github.com/marcelocorreia/mcduino",
   "license": "MIT",
   "engines": {
     "atom": ">=0.174.0 <2.0.0"
