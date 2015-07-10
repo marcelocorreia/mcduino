@@ -11,7 +11,7 @@
     "run"
   ],
   "homepage": "https://github.com/marcelocorreia/mcduino",
-  "bugs": "https://github.com/kylewlacy/run-command/issues",
+  "bugs": "https://github.com/marcelocorreia/mcduino",
   "author": "Marcelo Correia",
   "activationCommands": {
     "atom-workspace": [
