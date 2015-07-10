@@ -1,6 +1,6 @@
 {ContentDisposable} = require 'atom'
 CommandRunner = require './command-runner'
-RunCommandView = require './run-command-view'
+RunCommandView = require './mcduino-view'
 CommandOutputView = require './command-output-view'
 
 module.exports =
