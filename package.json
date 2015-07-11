@@ -4,11 +4,10 @@
   "version": "0.3.0",
   "description": "Arduino for Atom",
   "keywords": [
-    "command",
-    "terminal",
-    "execute",
-    "unix",
-    "run"
+    "arduino",
+    "mcduino",
+    "avr",
+    "c++"
   ],
   "homepage": "https://github.com/marcelocorreia/mcduino",
   "bugs": "https://github.com/marcelocorreia/mcduino",
@@ -17,7 +16,15 @@
     "atom-workspace": [
       "run-command:run",
       "run-command:toggle-panel",
-      "run-command:kill-last-command"
+      "run-command:kill-last-command",
+      "run-command:inoCheck",
+      "run-command:inoClean",
+      "run-command:inoBuild",
+      "run-command:inoUpload",
+      "run-command:inoSerial",
+      "run-command:inoListModels",
+      "run-command:inoPreproc",
+      "run-command:inoInit"
     ]
   },
   "repository": "https://github.com/marcelocorreia/mcduino",

@@ -3,13 +3,18 @@
   {
     'label': 'Arduino'
     'submenu': [
-      'label': 'MCduino'
-      'submenu': [
-        {'label':'New Sketch', 'command':'run-command:run'}
-        {'label':'Examples','command': 'run-command:re-run-last-command'}
+
+        {'label':'New Project', 'command':'run-command:inoInit'}
         {'type': 'separator'}
-        {'label':'Examples','command': 'run-command:re-run-last-command'}
-      ]
+        {'label':'Serial','command': 'run-command:inoSerial'}
+        {'type': 'separator'}
+        {'label':'Clean','command': 'run-command:inoClean'}
+        {'label':'Build','command': 'run-command:inoBuild'}
+        {'label':'Upload','command': 'run-command:inoUpload'}
+        {'label':'Convert to C++','command': 'run-command:inoPreproc'}
+        {'type': 'separator'}
+        {'label':'List Board Models','command': 'run-command:inoListModels'}
+        {'label':'Help','command': 'run-command:inoCheck'}
     ]
   }
 ]

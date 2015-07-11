@@ -7,7 +7,9 @@ class RunCommandView extends View
     @div class: 'command-entry', =>
       @subview 'commandEntryView', new TextEditorView
         mini: true,
-        placeholderText: 'rake spec'
+        placeholderText: 'ino clean'
+
+
 
   initialize: (runner) ->
     @panel = atom.workspace.addModalPanel
@@ -33,10 +35,21 @@ class RunCommandView extends View
     @panel.show()
 
     @storeFocusedElement()
+    # @commandEntryView.getModel().setText('ino --help')
     @commandEntryView.focus()
-
     editor = @commandEntryView.getModel()
     editor.setSelectedBufferRange editor.getBuffer().getRange()
+    command = @commandEntryView.getModel().getText()
+
+  newProject: ->
+    @panel.show()
+
+    @storeFocusedElement()
+    @commandEntryView.getModel().setText('$HOME/github/my-arduino-project')
+    @commandEntryView.focus()
+    editor = @commandEntryView.getModel()
+    editor.setSelectedBufferRange editor.getBuffer().getRange()
+    command = @commandEntryView.getModel().getText()
 
   hide: ->
     @panel.hide()
