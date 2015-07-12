@@ -79,7 +79,7 @@ module.exports =
     @runCommandView.newProject()
 
   inoConvert: ->
-    @runner.run('mkdir src lib; touch lib/.holder; mv *ino src/sketch.ino')
+    @runner.run('mkdir src lib; touch lib/.holder; mv *ino src/sketch.ino; mv *cpp src/ *h src')
 
   run: ->
     @runCommandView.show()

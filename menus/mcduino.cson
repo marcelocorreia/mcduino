@@ -5,14 +5,14 @@
     'submenu': [
 
         {'label':'New Project', 'command':'mcduino:inoInit'}
-        {'label':'Conver Project', 'command':'mcduino:inoConvert'}
+        {'label':'Convert Project', 'command':'mcduino:inoConvert'}
         {'type': 'separator'}
         {'label':'Serial','command': 'mcduino:inoSerial'}
         {'type': 'separator'}
         {'label':'Clean','command': 'mcduino:inoClean'}
         {'label':'Build','command': 'mcduino:inoBuild'}
         {'label':'Upload','command': 'mcduino:inoUpload'}
-        {'label':'Convert to C++','command': 'mcduino:inoPreproc'}
+        # {'label':'Convert to C++','command': 'mcduino:inoPreproc'}
         {'type': 'separator'}
         {'label':'List Board Models','command': 'mcduino:inoListModels'}
         {'label':'Help','command': 'mcduino:inoCheck'}
