@@ -62,9 +62,10 @@ class NewProjectView extends View
   confirm: ->
     if(@getCommand())
       path = @getCommand()
-      myCommand = 'mkdir ' + path + '; cd ' + path + '; ' + atom.config.get('mcduino.inoPath') + ' init -t blink'
-      # console.log(myCommand)
+      myCommand = 'mkdir ' + path + '; cd ' + path + '; ' + atom.config.get('mcduino.inoPath') + ' init -t blink; open -a Atom ' + path
+
       @runner.run(myCommand)
+
     @cancel()
 
   storeFocusedElement: ->

@@ -97,8 +97,8 @@ module.exports =
     @inoRun('preproc')
 
   inoInit: ->
-    # @newProjectAgent.show()
-    atom.open('file:///tmp')
+    @newProjectAgent.show()
+    
 
   inoConvert: ->
     @runner.run('mkdir src lib; touch lib/.holder; mv *ino src/sketch.ino; mv *cpp src/ *h src')
