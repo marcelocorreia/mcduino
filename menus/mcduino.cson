@@ -4,17 +4,18 @@
     'label': 'Arduino'
     'submenu': [
 
-        {'label':'New Project', 'command':'run-command:inoInit'}
+        {'label':'New Project', 'command':'mcduino:inoInit'}
+        {'label':'Conver Project', 'command':'mcduino:inoConvert'}
         {'type': 'separator'}
-        {'label':'Serial','command': 'run-command:inoSerial'}
+        {'label':'Serial','command': 'mcduino:inoSerial'}
         {'type': 'separator'}
-        {'label':'Clean','command': 'run-command:inoClean'}
-        {'label':'Build','command': 'run-command:inoBuild'}
-        {'label':'Upload','command': 'run-command:inoUpload'}
-        {'label':'Convert to C++','command': 'run-command:inoPreproc'}
+        {'label':'Clean','command': 'mcduino:inoClean'}
+        {'label':'Build','command': 'mcduino:inoBuild'}
+        {'label':'Upload','command': 'mcduino:inoUpload'}
+        {'label':'Convert to C++','command': 'mcduino:inoPreproc'}
         {'type': 'separator'}
-        {'label':'List Board Models','command': 'run-command:inoListModels'}
-        {'label':'Help','command': 'run-command:inoCheck'}
+        {'label':'List Board Models','command': 'mcduino:inoListModels'}
+        {'label':'Help','command': 'mcduino:inoCheck'}
     ]
   }
 ]

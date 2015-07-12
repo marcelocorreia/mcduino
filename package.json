@@ -14,17 +14,17 @@
   "author": "Marcelo Correia",
   "activationCommands": {
     "atom-workspace": [
-      "run-command:run",
-      "run-command:toggle-panel",
-      "run-command:kill-last-command",
-      "run-command:inoCheck",
-      "run-command:inoClean",
-      "run-command:inoBuild",
-      "run-command:inoUpload",
-      "run-command:inoSerial",
-      "run-command:inoListModels",
-      "run-command:inoPreproc",
-      "run-command:inoInit"
+      "mcduino:run",
+      "mcduino:toggle-panel",
+      "mcduino:kill-last-command",
+      "mcduino:inoCheck",
+      "mcduino:inoClean",
+      "mcduino:inoBuild",
+      "mcduino:inoUpload",
+      "mcduino:inoSerial",
+      "mcduino:inoListModels",
+      "mcduino:inoPreproc",
+      "mcduino:inoInit"
     ]
   },
   "repository": "https://github.com/marcelocorreia/mcduino",
@@ -35,5 +35,15 @@
   "dependencies": {
     "atom-space-pen-views": "^2.0.3",
     "pty.js": "https://github.com/chjj/pty.js/archive/master.tar.gz"
+  },
+  "package-dependencies": {
+    "tool-bar": "^0.1.0"
+  },
+  "consumedServices": {
+    "tool-bar": {
+      "versions": {
+        "^0.1.0": "consumeToolBar"
+      }
+    }
   }
 }

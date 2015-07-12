@@ -9,7 +9,7 @@ class CommandRunner
     @emitter = new Emitter()
 
   spawnProcess: (command) ->
-    shell = atom.config.get('run-command.shellCommadn') || '/bin/bash'
+    shell = atom.config.get('mcduino.shellCommand') || '/bin/bash'
     @term = pty.spawn shell, ['-c', command],
       name: 'xterm-color'
       cwd: @constructor.workingDirectory()

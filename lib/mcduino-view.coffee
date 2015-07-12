@@ -10,7 +10,6 @@ class RunCommandView extends View
         placeholderText: 'ino clean'
 
 
-
   initialize: (runner) ->
     @panel = atom.workspace.addModalPanel
       item: @,
@@ -56,7 +55,6 @@ class RunCommandView extends View
 
   isVisible: ->
     @panel.isVisible()
-
 
 
   getCommand: ->
