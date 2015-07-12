@@ -2,12 +2,12 @@
 Utils = require './utils'
 
 module.exports =
-class RunCommandView extends View
+class NewProjectView extends View
   @content: ->
     @div class: 'command-entry', =>
       @subview 'commandEntryView', new TextEditorView
         mini: true,
-        placeholderText: 'Type shell command.'
+        placeholderText: 'Enter path'
 
 
   initialize: (runner) ->
@@ -34,11 +34,14 @@ class RunCommandView extends View
     @panel.show()
 
     @storeFocusedElement()
-    # @commandEntryView.getModel().setText('ino --help')
+    @commandEntryView.getModel().setText('ino --help')
     @commandEntryView.focus()
     editor = @commandEntryView.getModel()
     editor.setSelectedBufferRange editor.getBuffer().getRange()
     command = @commandEntryView.getModel().getText()
+    console.log(@runner.homeDirectory)
+    #
+    # @commandEntryView.getModel().setText('')
 
   hide: ->
     @panel.hide()
@@ -58,8 +61,10 @@ class RunCommandView extends View
 
   confirm: ->
     if(@getCommand())
-      @runner.run(@getCommand())
-
+      path = @getCommand()
+      myCommand = 'mkdir ' + path + '; cd ' + path + '; ' + atom.config.get('mcduino.inoPath') + ' init -t blink'
+      # console.log(myCommand)
+      @runner.run(myCommand)
     @cancel()
 
   storeFocusedElement: ->
