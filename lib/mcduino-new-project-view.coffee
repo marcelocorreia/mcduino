@@ -32,16 +32,13 @@ class NewProjectView extends View
 
   show: ->
     @panel.show()
-
     @storeFocusedElement()
-    @commandEntryView.getModel().setText('ino --help')
+    @commandEntryView.getModel().setText('~/github/new-project')
     @commandEntryView.focus()
     editor = @commandEntryView.getModel()
     editor.setSelectedBufferRange editor.getBuffer().getRange()
     command = @commandEntryView.getModel().getText()
     console.log(@runner.homeDirectory)
-    #
-    # @commandEntryView.getModel().setText('')
 
   hide: ->
     @panel.hide()
