@@ -21,3 +21,5 @@ Toolbar powered by https://github.com/suda/tool-bar
 - [ ] Improve test coverage
 - [ ] Read serial ports from OS (Explore Ino's options)
 - [x] Add compiler flags settings
+- [ ] Linux support
+- [ ] Windows support
