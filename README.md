@@ -17,6 +17,6 @@ Toolbar powered by https://github.com/suda/tool-bar
 ![Running `rspec spec`](https://raw.githubusercontent.com/kylewlacy/run-command/master/screenshots/run.gif)
 
 # ROADMAP
-[ ] Read boards from Arduino's boards.txt
-[ ] Improve test coverage
-[ ] Read serial ports from OS (Explore Ino's options)
+- [ ] Read boards from Arduino's boards.txt
+- [ ] Improve test coverage
+- [ ] Read serial ports from OS (Explore Ino's options)
