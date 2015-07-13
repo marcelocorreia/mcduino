@@ -20,3 +20,4 @@ Toolbar powered by https://github.com/suda/tool-bar
 - [ ] Read boards from Arduino's boards.txt
 - [ ] Improve test coverage
 - [ ] Read serial ports from OS (Explore Ino's options)
+- [x] Add compiler flags settings
