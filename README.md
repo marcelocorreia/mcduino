@@ -10,11 +10,6 @@ Toolbar powered by https://github.com/suda/tool-bar
 - [ ] [Ino](http://inotool.org)
 - [ ] [Suda tool-bar](https://github.com/suda/tool-bar)(optional)
 
-!['Run Command' dialog](https://raw.githubusercontent.com/kylewlacy/run-command/master/screenshots/run-command.gif)
-
-![Re-running `rspec spec`](https://raw.githubusercontent.com/kylewlacy/run-command/master/screenshots/re-run.gif)
-
-![Running `rspec spec`](https://raw.githubusercontent.com/kylewlacy/run-command/master/screenshots/run.gif)
 
 # ROADMAP
 - [ ] Read boards from Arduino's boards.txt
