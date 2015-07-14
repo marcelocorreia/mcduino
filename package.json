@@ -1,7 +1,7 @@
 {
   "name": "mcduino",
   "main": "./lib/main",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Arduino for Atom",
   "keywords": [
     "arduino",
