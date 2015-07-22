@@ -3,24 +3,15 @@
   {
     'label': 'Arduino'
     'submenu': [
-        {'label':'About MCduino', 'command':'application:show-settings'}
-        {'label':'Preferences', 'command':'application:mcduino:show-settings'}
-        {'label':'Show toolbar', 'command':'tool-bar:toggle'}
-        {'type': 'separator'}
         {'label':'New Project', 'command':'mcduino:inoInit'}
-        {
-          'label': 'Examples'
-          'submenu': [
-            { 'label': 'Toggle Tree View', 'command': 'tree-view:toggle' }
-          ]
-        }
+        {'label':'Toggle Console', 'command':'mcduino:toggle-panel'}
+        {'label':'Toggle toolbar', 'command':'tool-bar:toggle'}
+        {'type': 'separator'}
         {'label':'Convert Project', 'command':'mcduino:inoConvert'}
-        # {'label':'Serial Monitor','command': 'mcduino:inoSerial'}
         {'type': 'separator'}
         {'label':'Clean','command': 'mcduino:inoClean'}
         {'label':'Build','command': 'mcduino:inoBuild'}
         {'label':'Upload','command': 'mcduino:inoUpload'}
-        # {'label':'Convert to C++','command': 'mcduino:inoPreproc'}
         {'type': 'separator'}
         {'label':'List Board Models','command': 'mcduino:inoListModels'}
         {'label':'Help','command': 'mcduino:inoCheck'}

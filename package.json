@@ -1,17 +1,4 @@
 {
-  "name": "mcduino",
-  "main": "./lib/main",
-  "version": "0.5.0",
-  "description": "Arduino for Atom",
-  "keywords": [
-    "arduino",
-    "mcduino",
-    "avr",
-    "c++"
-  ],
-  "homepage": "https://github.com/marcelocorreia/mcduino",
-  "bugs": "https://github.com/marcelocorreia/mcduino",
-  "author": "Marcelo Correia",
   "activationCommands": {
     "atom-workspace": [
       "mcduino:run",
@@ -23,27 +10,39 @@
       "mcduino:inoUpload",
       "mcduino:inoSerial",
       "mcduino:inoListModels",
-      "mcduino:inoPreproc",
       "mcduino:inoInit"
     ]
   },
-  "repository": "https://github.com/marcelocorreia/mcduino",
-  "license": "MIT",
-  "engines": {
-    "atom": ">=0.174.0 <2.0.0"
-  },
-  "dependencies": {
-    "atom-space-pen-views": "^2.0.3",
-    "pty.js": "https://github.com/chjj/pty.js/archive/master.tar.gz"
-  },
-  "package-dependencies": {
-    "tool-bar": "^0.1.0"
-  },
+  "author": "Marcelo Correia",
+  "bugs": "https://github.com/marcelocorreia/mcduino",
   "consumedServices": {
     "tool-bar": {
       "versions": {
         "^0.1.0": "consumeToolBar"
       }
     }
-  }
+  },
+  "dependencies": {
+    "atom-space-pen-views": "^2.0.3",
+    "pty.js": "https://github.com/chjj/pty.js/archive/master.tar.gz"
+  },
+  "description": "Arduino for Atom",
+  "engines": {
+    "atom": ">=0.174.0 <2.0.0"
+  },
+  "homepage": "https://github.com/marcelocorreia/mcduino",
+  "keywords": [
+    "arduino",
+    "mcduino",
+    "avr",
+    "c++"
+  ],
+  "license": "MIT",
+  "main": "./lib/main",
+  "name": "mcduino",
+  "package-dependencies": {
+    "tool-bar": "^0.1.0"
+  },
+  "repository": "https://github.com/marcelocorreia/mcduino",
+  "version": "0.5.0"
 }
