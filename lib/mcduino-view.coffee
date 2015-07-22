@@ -6,7 +6,7 @@ class RunCommandView extends View
   @content: ->
     @div class: 'command-entry', =>
       @subview 'commandEntryView', new TextEditorView
-        mini: true,
+        mini: false,
         placeholderText: 'Type shell command.'
 
 

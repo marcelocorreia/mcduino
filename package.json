@@ -10,7 +10,8 @@
       "mcduino:inoUpload",
       "mcduino:inoSerial",
       "mcduino:inoListModels",
-      "mcduino:inoInit"
+      "mcduino:inoInit",
+      "tool-bar:toggle"
     ]
   },
   "author": "Marcelo Correia",

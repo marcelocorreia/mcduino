@@ -13,7 +13,6 @@
   'cmd-ctrl-alt-c': 'mcduino:inoClean'
   'cmd-ctrl-alt-b': 'mcduino:inoBuild'
   'cmd-ctrl-alt-u': 'mcduino:inoUpload'
-  # 'cmd-ctrl-alt-s': 'mcduino:inoSerial'
   'cmd-alt-l':      'mcduino:inoListModels'
   'cmd-ctrl-alt-p': 'mcduino:inoPreproc'
   'cmd-ctrl-alt-n': 'mcduino:inoinit'

@@ -196,18 +196,18 @@ module.exports =
     button = @toolBar.addButton
       icon: 'gear'
       callback: 'application:show-settings'
-      tooltip: 'Boards'
+      tooltip: 'MCduino: Settings'
 
     @toolBar.addButton
       icon: 'floppy-o'
       callback: 'window:save-all'
-      tooltip: 'Save all'
+      tooltip: 'MCduino: Save all'
       iconset: 'fa'
 
     @toolBar.addButton
       icon: 'terminal'
       callback: 'mcduino:run'
-      tooltip: 'Run shell command'
+      tooltip: 'MCduino: Run shell command'
 
     @toolBar.addSpacer()
 
@@ -215,18 +215,18 @@ module.exports =
     @toolBar.addButton
       icon: 'check',
       callback: 'mcduino:inoBuild'
-      tooltip: 'Verify/Compile'
+      tooltip: 'MCduino: Verify/Compile'
 
     @toolBar.addButton
       icon: 'upload',
       callback: 'mcduino:inoUpload'
-      tooltip: 'Upload'
+      tooltip: 'MCduino: Upload'
       iconset: 'fi'
 
     @toolBar.addButton
       icon: 'trashcan',
       callback: 'mcduino:inoClean'
-      tooltip: 'Clean'
+      tooltip: 'MCduino: Clean'
 
     @toolBar.addSpacer()
 
