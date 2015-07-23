@@ -20,4 +20,6 @@ class RequirementsChecker
       atom.project.getPaths()?[0] || @homeDirectory()
 
   getHomeDirectory: ->
+    console.log  @constructor.workingDirectory()
+    console.log  @constructor.homeDirectory()
     @runner.run('ls -l',false)
