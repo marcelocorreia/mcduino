@@ -59,13 +59,14 @@ class CommandRunner
         result.exited = true
         resolve(result)
         console.log result
+
       @subscriptions.add @onKill (signal) =>
         result.signal = signal
         resolve(result)
 
 
   kill: (signal) ->
-    signal ||= 'SIGTERM'powered
+    signal ||= 'SIGTERM'
 
     if @term?
       @emitter.emit('kill', signal)
