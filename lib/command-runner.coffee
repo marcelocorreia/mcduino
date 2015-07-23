@@ -8,17 +8,19 @@ class CommandRunner
     @subscriptions = new CompositeDisposable()
     @emitter = new Emitter()
 
-  spawnProcess: (command) ->
+  spawnProcess: (command,openConsole) ->
     shell = atom.config.get('mcduino.shellCommand') || '/bin/bash'
     @term = pty.spawn shell, ['-c', command],
       name: 'xterm-color'
       cwd: @constructor.workingDirectory()
       env: process.env
 
-    @term.on 'data', (data) =>
-      @emitter.emit('data', data)
-    @term.on 'exit', =>
-      @emitter.emit('exit')
+
+    if(openConsole)
+      @term.on 'data', (data) =>
+        @emitter.emit('data', data)
+      @term.on 'exit', =>
+        @emitter.emit('exit')
 
   @homeDirectory: ->
     process.env['HOME'] || process.env['USERPROFILE'] || '/'
@@ -41,7 +43,7 @@ class CommandRunner
   onKill: (handler) ->
     @emitter.on 'kill', handler
 
-  run: (command) ->
+  run: (command,openConsole) ->
     new Promise (resolve, reject) =>
       @kill()
       @emitter.emit('command', command)
@@ -51,7 +53,7 @@ class CommandRunner
         exited: false
         signal: null
 
-      @spawnProcess(command)
+      @spawnProcess(command,openConsole)
 
       @subscriptions.add @onData (data) =>
         result.output += data

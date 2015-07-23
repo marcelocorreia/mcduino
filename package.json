@@ -1,6 +1,7 @@
 {
   "activationCommands": {
     "atom-workspace": [
+      "tool-bar:toggle",
       "mcduino:run",
       "mcduino:toggle-panel",
       "mcduino:kill-last-command",
@@ -11,7 +12,7 @@
       "mcduino:inoSerial",
       "mcduino:inoListModels",
       "mcduino:inoInit",
-      "tool-bar:toggle"
+      "mcduino:checkRequirements"
     ]
   },
   "author": "Marcelo Correia",

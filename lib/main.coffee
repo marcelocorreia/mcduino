@@ -3,7 +3,7 @@ CommandRunner = require './command-runner'
 RunCommandView = require './mcduino-view'
 NewProjectView = require './mcduino-new-project-view'
 CommandOutputView = require './command-output-view'
-
+RequirementsChecker = require './requirements-checker'
 
 module.exports =
   config:
@@ -79,11 +79,14 @@ module.exports =
       default: '-Os --gc-sections'
       description: 'Like --cppflags, but the flags specified are only passed during the linking stage. Note these flags should be specified as if "ld" were being invoked                        directly (i.e. the "-Wl," prefix should be omitted). Default: "-Os --gc-sections"'
 
+
+
   activate: (state) ->
     @runner = new CommandRunner()
     @newProjectAgent = new NewProjectView(@runner)
     @commandOutputView = new CommandOutputView(@runner)
     @runCommandView = new RunCommandView(@runner)
+    @reqChecker = new RequirementsChecker(@runner)
 
     @subscriptions = atom.commands.add 'atom-workspace',
       'mcduino:run': => @run()
@@ -98,6 +101,7 @@ module.exports =
       'mcduino:inoPreproc': => @inoPreproc()
       'mcduino:inoInit': => @inoInit()
       'mcduino:inoConvert': => @inoConvert()
+      'mcduino:checkRequirements': => @checkRequirements()
 
   deactivate: ->
     @runCommandView.destroy()
@@ -106,23 +110,26 @@ module.exports =
   dispose: ->
     @subscriptions.dispose()
 
-  inoRun: (inoCommand) ->
-    @runner.run(@getProperty('mcduino.inoPath') + ' ' + inoCommand)
+  checkRequirements: ->
+    console.log @reqChecker.getHomeDirectory()
 
-  inoRunWithOptions: (inoCommand, extraInoOptions) ->
+  inoRun: (inoCommand, openConsole) ->
+    @runner.run(@getProperty('mcduino.inoPath') + ' ' + inoCommand, openConsole)
+
+  inoRunWithOptions: (inoCommand, extraInoOptions, openConsole) ->
     inoOptions = ' ' + @getDefaultInoOptions()
 
     if(extraInoOptions)
       inoOptions += ' ' + extraInoOptions
 
-    @runner.run(@getProperty('mcduino.inoPath') + ' ' + inoCommand + inoOptions)
+    @runner.run(@getProperty('mcduino.inoPath') + ' ' + inoCommand + inoOptions, openConsole)
 
   inoCheck: ->
     # @runner.run(@getProperty('mcduino.inoPath') + ' --help')
-    @inoRun('--help')
+    @inoRun('--help', true)
 
   inoClean: ->
-    @inoRun('clean')
+    @inoRun('clean', true)
 
   inoBuild: ->
     @inoClean()
@@ -131,27 +138,26 @@ module.exports =
     else
       opts = ''
 
-    @inoRunWithOptions('build', opts)
+    @inoRunWithOptions('build', opts, true)
 
   inoUpload: ->
     @inoBuild()
-    @inoRunWithOptions('upload','')
+    @inoRunWithOptions('upload','',true)
 
   # inoSerial: ->
   #   @inoRun('serial -b ' + @getProperty('mcduino.serialBaudRate') )
 
   inoListModels: ->
-    @inoRun('list-models')
+    @inoRun('list-models' , true)
 
   inoPreproc: ->
-    @inoRun('preproc')
+    @inoRun('preproc',true)
 
   inoInit: ->
     @newProjectAgent.show()
 
-
   inoConvert: ->
-    @runner.run('mkdir src lib; touch lib/.holder; mv *ino src/sketch.ino; mv *cpp src/ *h src')
+    @runner.run('mkdir src lib; touch lib/.holder; mv *ino src/sketch.ino; mv *cpp src/ *h src', true)
 
   inoNewProject: ->
     console.log 'hey'
