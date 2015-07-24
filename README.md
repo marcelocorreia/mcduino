@@ -5,6 +5,8 @@ Originally derived from Kyle Lacy's [run-command](https://github.com/kylewlacy/r
 
 Toolbar powered by https://github.com/suda/tool-bar
 
+Currently for Arduino 1.0 only.
+
 # Dependencies
 - [ ] [Arduino IDE](http://arduino.cc)
 - [ ] [Ino](http://inotool.org)
@@ -18,3 +20,4 @@ Toolbar powered by https://github.com/suda/tool-bar
 - [x] Add compiler flags settings
 - [ ] Linux support
 - [ ] Windows support
+- [ ] Support for Arduino 1.6

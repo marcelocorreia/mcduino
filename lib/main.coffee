@@ -79,14 +79,14 @@ module.exports =
       default: '-Os --gc-sections'
       description: 'Like --cppflags, but the flags specified are only passed during the linking stage. Note these flags should be specified as if "ld" were being invoked                        directly (i.e. the "-Wl," prefix should be omitted). Default: "-Os --gc-sections"'
 
-
-
   activate: (state) ->
     @runner = new CommandRunner()
     @newProjectAgent = new NewProjectView(@runner)
     @commandOutputView = new CommandOutputView(@runner)
     @runCommandView = new RunCommandView(@runner)
-    @reqChecker = new RequirementsChecker(@runner)
+    @reqChecker = new RequirementsChecker()
+
+
 
     @subscriptions = atom.commands.add 'atom-workspace',
       'mcduino:run': => @run()
@@ -96,7 +96,6 @@ module.exports =
       'mcduino:inoClean': => @inoClean()
       'mcduino:inoBuild': => @inoBuild()
       'mcduino:inoUpload': => @inoUpload()
-      # 'mcduino:inoSerial': => @inoSerial()
       'mcduino:inoListModels': => @inoListModels()
       'mcduino:inoPreproc': => @inoPreproc()
       'mcduino:inoInit': => @inoInit()
@@ -106,30 +105,32 @@ module.exports =
   deactivate: ->
     @runCommandView.destroy()
     @commandOutputView.destroy()
+    @reqView.destroy()
+
 
   dispose: ->
     @subscriptions.dispose()
 
   checkRequirements: ->
-    console.log @reqChecker.getHomeDirectory()
+    @reqChecker.checkItAll()
 
-  inoRun: (inoCommand, openConsole) ->
-    @runner.run(@getProperty('mcduino.inoPath') + ' ' + inoCommand, openConsole)
+  inoRun: (inoCommand) ->
+    @runner.run(@getProperty('mcduino.inoPath') + ' ' + inoCommand)
 
-  inoRunWithOptions: (inoCommand, extraInoOptions, openConsole) ->
+  inoRunWithOptions: (inoCommand, extraInoOptions) ->
     inoOptions = ' ' + @getDefaultInoOptions()
 
     if(extraInoOptions)
       inoOptions += ' ' + extraInoOptions
 
-    @runner.run(@getProperty('mcduino.inoPath') + ' ' + inoCommand + inoOptions, openConsole)
+    @runner.run(@getProperty('mcduino.inoPath') + ' ' + inoCommand + inoOptions)
 
   inoCheck: ->
     # @runner.run(@getProperty('mcduino.inoPath') + ' --help')
-    @inoRun('--help', true)
+    @inoRun('--help')
 
   inoClean: ->
-    @inoRun('clean', true)
+    @inoRun('clean')
 
   inoBuild: ->
     @inoClean()
@@ -138,17 +139,17 @@ module.exports =
     else
       opts = ''
 
-    @inoRunWithOptions('build', opts, true)
+    @inoRunWithOptions('build', opts)
 
   inoUpload: ->
     @inoBuild()
-    @inoRunWithOptions('upload','',true)
+    @inoRunWithOptions('upload','')
 
   # inoSerial: ->
   #   @inoRun('serial -b ' + @getProperty('mcduino.serialBaudRate') )
 
   inoListModels: ->
-    @inoRun('list-models' , true)
+    @inoRun('list-models')
 
   inoPreproc: ->
     @inoRun('preproc',true)
@@ -157,7 +158,7 @@ module.exports =
     @newProjectAgent.show()
 
   inoConvert: ->
-    @runner.run('mkdir src lib; touch lib/.holder; mv *ino src/sketch.ino; mv *cpp src/ *h src', true)
+    @runner.run('mkdir src lib; touch lib/.holder; mv *ino src/sketch.ino; mv *cpp src/ *h src')
 
   inoNewProject: ->
     console.log 'hey'
@@ -242,10 +243,3 @@ module.exports =
       tooltip: 'Close Toolbar'
 
     @toolBar.addSpacer()
-
-    # # Adding spacer and button at the beginning of the tool bar
-    # @toolBar.addSpacer #priority: 10
-    # @toolBar.addButton
-    #   icon: '.octicon-check'
-    #   callback: 'application:about'
-    #   # priority: 10

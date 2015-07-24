@@ -1,25 +1,22 @@
 {BufferedProcess, Emitter, CompositeDisposable} = require 'atom'
-# path = require 'path'
-# pty = require 'pty.js'
+RequirementsView = require './requirements-view'
+shell = require 'shelljs/global'
 
 module.exports =
 class RequirementsChecker
   constructor: (@runner)->
     @subscriptions = new CompositeDisposable()
+    @reqView = new RequirementsView()
 
-  @homeDirectory: ->
-    process.env['HOME'] || process.env['USERPROFILE'] || '/'
 
-  @workingDirectory: ->
-    editor = atom.workspace.getActiveTextEditor()
-    activePath = editor?.getPath()
-    relative = atom.project.relativizePath(activePath)
-    if activePath?
-      relative[0] || path.dirname(activePath)
+
+  check:(executable) ->
+    if not which executable
+      @reqView.addRequirement('<span class="red">'+executable+'</span>')
     else
-      atom.project.getPaths()?[0] || @homeDirectory()
+      @reqView.addRequirement('<span class="green">'+executable+'</span>')
 
-  getHomeDirectory: ->
-    console.log  @constructor.workingDirectory()
-    console.log  @constructor.homeDirectory()
-    @runner.run('ls -l',false)
+    @reqView.show()
+
+  checkItAll: ->
+    @check appl for appl in ['python', 'inos']
