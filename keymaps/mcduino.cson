@@ -15,7 +15,7 @@
   'cmd-ctrl-alt-u': 'mcduino:inoUpload'
   'cmd-alt-l':      'mcduino:inoListModels'
   'cmd-ctrl-alt-t': 'tool-bar:toogle'
-  'cmd-ctrl-alt-p': 'mcduino:inoPreproc'
+  'cmd-ctrl-alt-g': 'mcduino:inoPreproc'
   'cmd-ctrl-alt-n': 'mcduino:inoinit'
   'cmd-ctrl-alt-v': 'mcduino:inoConvert'
   'cmd-ctrl-y':     'mcduino:checkRequirements'

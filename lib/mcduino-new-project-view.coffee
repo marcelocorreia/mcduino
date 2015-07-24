@@ -38,7 +38,7 @@ class NewProjectView extends View
     editor = @commandEntryView.getModel()
     editor.setSelectedBufferRange editor.getBuffer().getRange()
     command = @commandEntryView.getModel().getText()
-    console.log(@runner.homeDirectory)
+    
 
   hide: ->
     @panel.hide()
