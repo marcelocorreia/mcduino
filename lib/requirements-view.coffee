@@ -18,18 +18,9 @@ class RequirementsView extends View
       item: @,
       visible: false
 
-
-    # @subscriptions = atom.commands.add @element,
-    #   'core:confirm': (event) =>
-    #     @confirm()
-    #     event.stopPropagation()
-    #   'core:cancel': (event) =>
-    #     @cancel()
-    #     event.stopPropagation()
-
   addRequirement: (name) ->
     console.log name
-    if(name !=null && !Utils.stringIsBlank(name))
+    if(name != null && !Utils.stringIsBlank(name))
       @find('ol').append "<li>#{name}</li>"
 
   destroy: ->
@@ -37,13 +28,6 @@ class RequirementsView extends View
 
   show: ->
     @panel.show()
-    # @storeFocusedElement()
-    # @commandEntryView.getModel().setText('dude.... missing stuff')
-    # # @commandEntryView.focus()
-    # editor = @commandEntryView.getModel()
-    # editor.setSelectedBufferRange editor.getBuffer().getRange()
-    # command = @commandEntryView.getModel().getText()
-
 
   hide: ->
     @panel.hide()
@@ -51,27 +35,5 @@ class RequirementsView extends View
   isVisible: ->
     @panel.isVisible()
 
-
-  # getCommand: ->
-  #   command = @commandEntryView.getModel().getText()
-  #   if(!Utils.stringIsBlank(command))
-  #     command
-
   cancel: ->
-    # @restoreFocusedElement()
     @hide()
-
-  confirm: ->
-    # if(@getCommand())
-    #   path = @getCommand()
-    #   myCommand = 'mkdir ' + path + '; cd ' + path + '; ' + atom.config.get('mcduino.inoPath') + ' init -t blink; open -a Atom ' + path
-
-      # @runner.run(myCommand)
-
-    # @cancel()
-
-  # storeFocusedElement: ->
-  #   @previouslyFocused = $(document.activeElement)
-  #
-  # restoreFocusedElement: ->
-  #   @previouslyFocused?.focus?()
