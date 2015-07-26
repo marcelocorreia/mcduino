@@ -5,19 +5,19 @@ Originally derived from Kyle Lacy's [run-command](https://github.com/kylewlacy/r
 
 Toolbar powered by https://github.com/suda/tool-bar
 
-Currently for Arduino 1.0 only.
+Currently for Arduino 1.0.x only.
 
 # Dependencies
-- [ ] [Arduino IDE](http://arduino.cc)
+- [ ] [Arduino IDE 1.0.x](http://arduino.cc)
 - [ ] [Ino](http://inotool.org)
 - [ ] [Suda tool-bar](https://github.com/suda/tool-bar)(optional)
 
 
 # ROADMAP
-- [ ] Read boards from Arduino's boards.txt
+- [x] Read boards from Arduino's boards.txt
 - [ ] Improve test coverage
 - [ ] Read serial ports from OS (Explore Ino's options)
 - [x] Add compiler flags settings
 - [ ] Linux support
 - [ ] Windows support
-- [ ] Support for Arduino 1.6
+- [ ] Support for Arduino 1.6.x

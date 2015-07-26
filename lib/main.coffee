@@ -4,6 +4,8 @@ RunCommandView = require './mcduino-view'
 NewProjectView = require './mcduino-new-project-view'
 CommandOutputView = require './command-output-view'
 RequirementsChecker = require './requirements-checker'
+Utils = require './utils'
+
 
 module.exports =
   config:
@@ -19,7 +21,8 @@ module.exports =
     boardModel:
       type: 'string'
       default: 'uno'
-      enum: ['uno','atmega328','diecimila','nano328','nana','mega2560','leonardo','esplora','micro','mini328','mini','micro','ethernet','fio','bt328','bt','LilyPadUSB','lilypad328','lilypad','pro5v328','pro5v','pro328','pro','atmega168','atmega8','robotControl','robotMotor']
+      # enum: ['uno','atmega328','diecimila','nano328','nana','mega2560','leonardo','esplora','micro','mini328','mini','micro','ethernet','fio','bt328','bt','LilyPadUSB','lilypad328','lilypad','pro5v328','pro5v','pro328','pro','atmega168','atmega8','robotControl','robotMotor']
+      enum: Utils.getModelsList()
       description: 'Default: uno'
     serialPort:
       type: 'string'
@@ -71,7 +74,7 @@ module.exports =
     compilerCXXFLAGS:
       type: 'string'
       title: 'Compiler Settings: --cxxflags FLAGS'
-      default: '-ffunction-sections -fdata-sections -g -Os -w'
+      default: '-fno-exceptions'
       description: 'Like --cppflags, but the flags specified are only passed to compilations of C++ source files. Default: "-fno-exceptions"'
     compilerLDFLAGS:
       type: 'string'
@@ -86,27 +89,40 @@ module.exports =
     @runCommandView = new RunCommandView(@runner)
     @reqChecker = new RequirementsChecker()
 
-
-
     @subscriptions = atom.commands.add 'atom-workspace',
       'mcduino:run': => @run()
       'mcduino:toggle-panel': => @togglePanel(),
       'mcduino:kill-last-command': => @killLastCommand()
-      'mcduino:inoCheck': => @inoCheck()
-      'mcduino:inoClean': => @inoClean()
-      'mcduino:inoBuild': => @inoBuild()
-      'mcduino:inoUpload': => @inoUpload()
-      'mcduino:inoListModels': => @inoListModels()
-      'mcduino:inoPreproc': => @inoPreproc()
-      'mcduino:inoInit': => @inoInit()
-      'mcduino:inoConvert': => @inoConvert()
-      'mcduino:checkRequirements': => @checkRequirements()
+      'mcduino:ino-check': => @inoCheck()
+      'mcduino:ino-clean': => @inoClean()
+      'mcduino:ino-build': => @inoBuild()
+      'mcduino:ino-upload': => @inoUpload()
+      'mcduino:ino-list-models': => @inoListModels()
+      'mcduino:ino-preproc': => @inoPreproc()
+      'mcduino:ino-new-project': => @inoNewProject()
+      'mcduino:ino-convert': => @inoConvert()
+      'mcduino:check-requirements': => @checkRequirements()
+      'mcduino:dev-test': => @devTest()
+
+
+      if Utils.getProperty('mcduino.arduinoPath') is 'Auto'
+        if process.platform is 'darwin'
+          console.log "Setting arduino default path"
+          atom.config.set('mcduino.arduinoPath', '/Applications/Arduino.app')
+
+      console.log Utils.getModelsList()
+      @reqChecker.checkItAll()
+
+
 
   deactivate: ->
     @runCommandView.destroy()
     @commandOutputView.destroy()
     @reqView.destroy()
 
+  devTest: ->
+    # console.log atom.config.getSources()
+    Utils.getModelsList()
 
   dispose: ->
     @subscriptions.dispose()
@@ -115,7 +131,7 @@ module.exports =
     @reqChecker.checkItAll()
 
   inoRun: (inoCommand) ->
-    @runner.run(@getProperty('mcduino.inoPath') + ' ' + inoCommand)
+    @runner.run(Utils.getProperty('mcduino.inoPath') + ' ' + inoCommand)
 
   inoRunWithOptions: (inoCommand, extraInoOptions) ->
     inoOptions = ' ' + @getDefaultInoOptions()
@@ -123,10 +139,10 @@ module.exports =
     if(extraInoOptions)
       inoOptions += ' ' + extraInoOptions
 
-    @runner.run(@getProperty('mcduino.inoPath') + ' ' + inoCommand + inoOptions)
+    @runner.run(Utils.getProperty('mcduino.inoPath') + ' ' + inoCommand + inoOptions)
 
   inoCheck: ->
-    # @runner.run(@getProperty('mcduino.inoPath') + ' --help')
+    # @runner.run(Utils.getProperty('mcduino.inoPath') + ' --help')
     @inoRun('--help')
 
   inoClean: ->
@@ -134,10 +150,12 @@ module.exports =
 
   inoBuild: ->
     @inoClean()
-    if( @getProperty('mcduino.compilerVerbose'))
+    if(Utils.getProperty('mcduino.compilerVerbose'))
       opts = ' -v'
     else
       opts = ''
+
+    opts += @getBuildOptions()
 
     @inoRunWithOptions('build', opts)
 
@@ -146,7 +164,7 @@ module.exports =
     @inoRunWithOptions('upload','')
 
   # inoSerial: ->
-  #   @inoRun('serial -b ' + @getProperty('mcduino.serialBaudRate') )
+  #   @inoRun('serial -b ' + Utils.getProperty('mcduino.serialBaudRate') )
 
   inoListModels: ->
     @inoRun('list-models')
@@ -154,14 +172,11 @@ module.exports =
   inoPreproc: ->
     @inoRun('preproc',true)
 
-  inoInit: ->
-    @newProjectAgent.show()
-
   inoConvert: ->
     @runner.run('mkdir src lib; touch lib/.holder; mv *ino src/sketch.ino; mv *cpp src/ *h src')
 
   inoNewProject: ->
-    console.log 'hey'
+    @newProjectAgent.show()
 
   sleep: (ms) ->
     start = new Date().getTime()
@@ -179,22 +194,31 @@ module.exports =
   killLastCommand: ->
     @runner.kill()
 
-  getProperty: (property) ->
-    return atom.config.get(property)
-
   getDefaultInoOptions: ->
     inoOptions = ''
 
-    if(@getProperty('mcduino.boardModel'))
-      inoOptions += ' -m ' + @getProperty('mcduino.boardModel')
+    if(Utils.getProperty('mcduino.boardModel'))
+      inoOptions += ' -m ' + Utils.getProperty('mcduino.boardModel')
 
-    if(@getProperty('mcduino.arduinoPath') isnt 'Auto')
-      inoOptions += ' -d ' + @getProperty('mcduino.arduinoPath')
+    if(Utils.getProperty('mcduino.arduinoPath') isnt 'Auto')
+      inoOptions += ' -d ' + Utils.getArduinoSDK()
 
-    if(@getProperty('mcduino.serialPort') isnt 'Auto')
-      inoOptions += ' -p ' + @getProperty('mcduino.serialPort')
+    if(Utils.getProperty('mcduino.serialPort') isnt 'Auto')
+      inoOptions += ' -p ' + Utils.getProperty('mcduino.serialPort')
 
     return inoOptions
+
+  getBuildOptions: ->
+    inoBuildOptions = ''
+    inoBuildOptions += ' --ar ' + Utils.getProperty('mcduino.compilerAR')
+    inoBuildOptions += ' --cxx ' + Utils.getProperty('mcduino.compilerCXX')
+    inoBuildOptions += ' --cc ' + Utils.getProperty('mcduino.compilerCC')
+
+    # inoBuildOptions += ' --cflags ' + Utils.getProperty('mcduino.compilerCFLAGS')
+    # inoBuildOptions += ' --cxxflags ' + Utils.getProperty('mcduino.compilerCXXFLAGS')
+    # inoBuildOptions += ' --ldflags ' + Utils.getProperty('mcduino.compilerLDFLAGS')
+
+
 
   #tool-bar
   consumeToolBar: (toolBar) ->
@@ -212,6 +236,11 @@ module.exports =
       iconset: 'fa'
 
     @toolBar.addButton
+      icon: 'sync'
+      callback: 'window:reload'
+      tooltip: 'MCduino: Reload IDE'
+
+    @toolBar.addButton
       icon: 'terminal'
       callback: 'mcduino:run'
       tooltip: 'MCduino: Run shell command'
@@ -221,18 +250,18 @@ module.exports =
     # Function with data in callback
     @toolBar.addButton
       icon: 'check',
-      callback: 'mcduino:inoBuild'
+      callback: 'mcduino:ino-build'
       tooltip: 'MCduino: Verify/Compile'
 
     @toolBar.addButton
       icon: 'upload',
-      callback: 'mcduino:inoUpload'
+      callback: 'mcduino:ino-upload'
       tooltip: 'MCduino: Upload'
       iconset: 'fi'
 
     @toolBar.addButton
       icon: 'trashcan',
-      callback: 'mcduino:inoClean'
+      callback: 'mcduino:ino-clean'
       tooltip: 'MCduino: Clean'
 
     @toolBar.addSpacer()

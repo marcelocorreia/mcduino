@@ -58,7 +58,7 @@ class CommandRunner
       @subscriptions.add @onExit =>
         result.exited = true
         resolve(result)
-        console.log result
+
       @subscriptions.add @onKill (signal) =>
         result.signal = signal
         resolve(result)

@@ -5,14 +5,15 @@
       "mcduino:run",
       "mcduino:toggle-panel",
       "mcduino:kill-last-command",
-      "mcduino:inoCheck",
-      "mcduino:inoClean",
-      "mcduino:inoBuild",
-      "mcduino:inoUpload",
-      "mcduino:inoSerial",
-      "mcduino:inoListModels",
-      "mcduino:inoInit",
-      "mcduino:checkRequirements"
+      "mcduino:ino-check",
+      "mcduino:ino-clean",
+      "mcduino:ino-build",
+      "mcduino:ino-upload",
+      "mcduino:ino-serial",
+      "mcduino:ino-list-models",
+      "mcduino:ino-new-project",
+      "mcduino:checkRequirements",
+      "mcduino:dev-test"
     ]
   },
   "author": "Marcelo Correia",
@@ -26,6 +27,7 @@
   },
   "dependencies": {
     "atom-space-pen-views": "^2.0.3",
+    "line-reader": "^0.2.4",
     "pty.js": "https://github.com/chjj/pty.js/archive/master.tar.gz",
     "shelljs": "^0.5.1"
   },

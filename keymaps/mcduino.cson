@@ -9,13 +9,18 @@
   'cmd-ctrl-x':     'mcduino:toggle-panel'
   'cmd-ctrl-alt-x': 'mcduino:kill-last-command'
   'cmd-ctrl-r':     'mcduino:re-run-last-command'
-  'cmd-ctrl-alt-k': 'mcduino:inoCheck'
-  'cmd-ctrl-alt-c': 'mcduino:inoClean'
-  'cmd-ctrl-alt-b': 'mcduino:inoBuild'
-  'cmd-ctrl-alt-u': 'mcduino:inoUpload'
-  'cmd-alt-l':      'mcduino:inoListModels'
+  'cmd-ctrl-alt-k': 'mcduino:ino-check'
+  'cmd-ctrl-alt-c': 'mcduino:ino-clean'
+  'cmd-ctrl-alt-b': 'mcduino:ino-build'
+  'cmd-ctrl-alt-u': 'mcduino:ino-upload'
+  'cmd-alt-l':      'mcduino:ino-list-models'
   'cmd-ctrl-alt-t': 'tool-bar:toogle'
-  'cmd-ctrl-alt-g': 'mcduino:inoPreproc'
-  'cmd-ctrl-alt-n': 'mcduino:inoinit'
-  'cmd-ctrl-alt-v': 'mcduino:inoConvert'
-  'cmd-ctrl-y':     'mcduino:checkRequirements'
+  'cmd-ctrl-alt-g': 'mcduino:ino-preproc'
+  'cmd-ctrl-alt-n': 'mcduino:ino-new-project'
+  'cmd-ctrl-alt-v': 'mcduino:ino-convert'
+  'cmd-ctrl-y':     'mcduino:check-requirements'
+
+
+
+
+        

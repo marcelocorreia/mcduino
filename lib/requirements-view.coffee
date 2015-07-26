@@ -8,6 +8,7 @@ class RequirementsView extends View
       @h1 "Requirements Check"
       @ol =>
       @hr
+      @h2 "Please check if the remaining requirements are installed available and available in the path ($PATH, %PATH%) and reload IDE"
       @div class: 'requirements-button',=>
         @button click: 'cancel','Ok I got it'
 
