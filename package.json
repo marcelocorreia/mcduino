@@ -47,7 +47,6 @@
     "tool-bar": "^0.1.0"
   },
   "repository": "https://github.com/marcelocorreia/mcduino",
-  "version": "0.10.0",
-  "devDependencies": {
-  }
+  "version": "0.11.0",
+  "devDependencies": {}
 }
