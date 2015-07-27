@@ -120,7 +120,8 @@ module.exports =
     @commandOutputView.destroy()
     @reqView.destroy()
 
-  devTest: ->
+  devTest: (test)->
+    console.log test
     # console.log atom.config.getSources()
     Utils.getModelsList()
 
@@ -133,13 +134,19 @@ module.exports =
   inoRun: (inoCommand) ->
     @runner.run(Utils.getProperty('mcduino.inoPath') + ' ' + inoCommand)
 
-  inoRunWithOptions: (inoCommand, extraInoOptions) ->
+  inoRunWithOptions: (inoCommand, extraInoOptions, @upload) ->
     inoOptions = ' ' + @getDefaultInoOptions()
 
     if(extraInoOptions)
       inoOptions += ' ' + extraInoOptions
 
-    @runner.run(Utils.getProperty('mcduino.inoPath') + ' ' + inoCommand + inoOptions)
+    cmd = ''
+    cmd += Utils.getProperty('mcduino.inoPath') + ' clean ;'
+    cmd +=  Utils.getProperty('mcduino.inoPath') + ' ' + inoCommand + inoOptions + ' ; '
+    if upload
+      cmd += Utils.getProperty('mcduino.inoPath') + ' upload ' + @getDefaultInoOptions()
+
+    @runner.run(cmd)
 
   inoCheck: ->
     # @runner.run(Utils.getProperty('mcduino.inoPath') + ' --help')
@@ -148,8 +155,7 @@ module.exports =
   inoClean: ->
     @inoRun('clean')
 
-  inoBuild: ->
-    @inoClean()
+  inoBuild: (@upload)->
     if(Utils.getProperty('mcduino.compilerVerbose'))
       opts = ' -v'
     else
@@ -157,11 +163,15 @@ module.exports =
 
     opts += @getBuildOptions()
 
-    @inoRunWithOptions('build', opts)
+    # @inoRunWithOptions('build', opts)
+
+    if upload
+      @inoRunWithOptions('build', opts, 'upload')
+    else
+      @inoRunWithOptions('build', opts)
 
   inoUpload: ->
-    @inoBuild()
-    @inoRunWithOptions('upload','')
+    @inoBuild('upload')
 
   # inoSerial: ->
   #   @inoRun('serial -b ' + Utils.getProperty('mcduino.serialBaudRate') )

@@ -36,3 +36,7 @@ class Utils
         boards.push blArr[0]
 
     return @removeDuplicatesNoEmptyValues(boards)
+
+  @sleep = (ms) ->
+    start = new Date().getTime()
+    continue while new Date().getTime() - start < ms

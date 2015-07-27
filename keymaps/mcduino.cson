@@ -18,9 +18,4 @@
   'cmd-ctrl-alt-g': 'mcduino:ino-preproc'
   'cmd-ctrl-alt-n': 'mcduino:ino-new-project'
   'cmd-ctrl-alt-v': 'mcduino:ino-convert'
-  'cmd-ctrl-y':     'mcduino:check-requirements'
-
-
-
-
-        
+  'cmd-ctrl-y':     'mcduino:dev-test'
