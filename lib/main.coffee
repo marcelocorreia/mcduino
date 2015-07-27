@@ -229,7 +229,6 @@ module.exports =
     # inoBuildOptions += ' --ldflags ' + Utils.getProperty('mcduino.compilerLDFLAGS')
 
 
-
   #tool-bar
   consumeToolBar: (toolBar) ->
     @toolBar = toolBar 'mcduino'

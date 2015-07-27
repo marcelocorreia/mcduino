@@ -16,6 +16,8 @@
         {'type': 'separator'}
         {'label':'Convert to INO', 'command':'mcduino:ino-convert'}
         {'type': 'separator'}
+        {'label':'Run Shell Command', 'command':'mcduino:run'}
+        {'type': 'separator'}
         {'label':'Clean','command': 'mcduino:ino-clean'}
         {'label':'Build','command': 'mcduino:ino-build'}
         {'label':'Upload','command': 'mcduino:ino-upload'}
