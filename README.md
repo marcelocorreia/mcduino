@@ -12,7 +12,7 @@ Toolbar powered by https://github.com/suda/tool-bar
 - FreeBSD (Not tested)
 - OpenBSD (Not tested)
 
-
+![Screenshot](https://raw.githubusercontent.com/marcelocorreia/mcduino/master/screenshots/mcduino-screenshot.png)
 
 # ROADMAP
 - ~~Read boards from Arduino's boards.txt~~
