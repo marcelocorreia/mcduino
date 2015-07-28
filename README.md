@@ -1,9 +1,12 @@
 # MCduino Arduino plugin for Atom
-Arduino support in [Atom](http://atom.io).
+Arduino 1.0.x support in [Atom](http://atom.io).
+
+Based on [Inotool](http://inotool.org)
+
 
 Originally derived from Kyle Lacy's [run-command](https://github.com/kylewlacy/run-command).
 
-Toolbar powered by https://github.com/suda/tool-bar
+Optional Toolbar powered by https://github.com/suda/tool-bar
 
 ---
 ###Currently for Arduino 1.0.x only and Unix based systems
@@ -27,7 +30,7 @@ Toolbar powered by https://github.com/suda/tool-bar
 ### Dependencies
 - [Arduino IDE 1.0.x](http://arduino.cc)
 - [Python](https://www.python.org)
-- [Ino](http://inotool.org)
+- [Inotool](http://inotool.org)
 - [Suda tool-bar](https://github.com/suda/tool-bar) (optional)
 
 ##Installing MCduino
