@@ -56,23 +56,37 @@ You will need to install the drivers for the FTDI chip on the board. You need to
 ###Linux
 Installing Arduino on Linux, for more detailed instructions, pick your distribution:
 
-Distributions|Links
---|
-[ArchLinux] | http://playground.arduino.cc/Linux/ArchLinux
-[CentOS 6] | http://playground.arduino.cc/Linux/CentOS6
-[Debian] | http://playground.arduino.cc/Linux/Debian
-[Fedora] | http://playground.arduino.cc/Linux/Fedora
-[Gentoo] | http://playground.arduino.cc/Linux/Gentoo
-[Mageia] | http://playground.arduino.cc/Linux/Mageia
-[MEPIS] | http://playground.arduino.cc/Linux/MEPIS
-[Mint] | http://playground.arduino.cc/Linux/Mint
-[openSUSE] | http://playground.arduino.cc/Linux/OpenSUSE
-[Puppy] | http://playground.arduino.cc/Linux/Puppy
-[Pussy] | http://playground.arduino.cc/Linux/Pussy
-[Slackware] | http://playground.arduino.cc/Linux/Slackware
-[Ubuntu] | http://playground.arduino.cc/Linux/Ubuntu
-Xandros (Debian derivative) on Asus Eee [PC]|http://playground.arduino.cc/Linux/Xandros
-[All "the hard way"] |http://playground.arduino.cc/Linux/All
+
+[ArchLinux](http://playground.arduino.cc/Linux/ArchLinux)
+
+[CentOS]( http://playground.arduino.cc/Linux/CentOS6)
+
+[Debian](http://playground.arduino.cc/Linux/Debian)
+
+[Fedora](http://playground.arduino.cc/Linux/Fedora)
+
+[Gentoo](http://playground.arduino.cc/Linux/Gentoo)
+
+[Mageia](http://playground.arduino.cc/Linux/Mageia)
+
+[MEPIS](http://playground.arduino.cc/Linux/MEPIS)
+
+[Mint](http://playground.arduino.cc/Linux/Mint)
+
+[openSUSE](http://playground.arduino.cc/Linux/OpenSUSE)
+
+[Puppy](http://playground.arduino.cc/Linux/Puppy)
+
+[Pussy](http://playground.arduino.cc/Linux/Pussy)
+
+[Slackware](http://playground.arduino.cc/Linux/Slackware)
+
+[Ubuntu](http://playground.arduino.cc/Linux/Ubuntu)
+
+[Xandros](http://playground.arduino.cc/Linux/Xandros)
+
+[All "the hard way"](http://playground.arduino.cc/Linux/All)
+
 
 ---
 
