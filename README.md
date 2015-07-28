@@ -41,7 +41,7 @@ Toolbar powered by https://github.com/suda/tool-bar
 
 ---
 ## Installing Arduino
-![](https://www.arduino.cc/img/GenuinoHeader.svg)
+![Arduino logo](https://store.arduino.cc/includes/images/stickers_logo_text.png)
 ###MacOS
 1. Download arduino. ([MacOS](http://arduino.cc/download.php?f=/arduino-1.6.3-macosx.zip) |  [Linux64](http://arduino.cc/download.php?f=/arduino-1.6.3-linux64.tar.xz) | [Linux32](http://arduino.cc/download.php?f=/arduino-1.6.3-linux32.tar.xz))
 2. Copy the Arduino application into the Applications folder (or elsewhere on your computer)
