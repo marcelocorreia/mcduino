@@ -1,4 +1,4 @@
-# MCduino Arduino plugin for Atom
+# MCduino Arduino Pacckage for Atom
 Arduino 1.0.x support in [Atom](http://atom.io).
 
 Based on [Inotool](http://inotool.org)
@@ -75,7 +75,7 @@ Optional Toolbar powered by https://github.com/suda/tool-bar
 # ROADMAP
 - ~~Read boards from Arduino's boards.txt~~
 - Improve test coverage
-- Read serial ports from OS (Explore Ino's options)
+- Read serial ports from OS
 - ~~Add compiler flags settings~~
 - Linux support
 - Support for Arduino 1.6.x
