@@ -3,12 +3,15 @@ Arduino 1.0.x support in [Atom](http://atom.io).
 
 Based on [Inotool](http://inotool.org)
 
+- More information at
+  - [Atom Packages](https://atom.io/packages/mcduino)  
+  - [Github](https://github.com/marcelocorreia/mcduino)  
 
 Originally derived from Kyle Lacy's [run-command](https://github.com/kylewlacy/run-command).
 
 Optional Toolbar powered by https://github.com/suda/tool-bar
 
----
+
 ###Currently for Arduino 1.0.x only and Unix based systems
 - MacOS (Tested on 10.10.14)
 - Linux (Not tested)
@@ -16,6 +19,58 @@ Optional Toolbar powered by https://github.com/suda/tool-bar
 - OpenBSD (Not tested)
 
 ![Screenshot](https://raw.githubusercontent.com/marcelocorreia/mcduino/master/screenshots/mcduino-screenshot.png)
+---
+
+#Compiler Extra Options & Flags
+
+```
+--make MAKE           Specifies the make tool to use. If a full path is not
+                      given, searches in Arduino directories before PATH.
+                      Default: "make".
+
+--cc COMPILER         Specifies the compiler used for C files. If a full
+                      path is not given, searches in Arduino directories
+                      before PATH. Default: "avr-gcc".
+
+
+--cxx COMPILER        Specifies the compiler used for C++ files. If a full
+                      path is not given, searches in Arduino directories
+                      before PATH. Default: "avr-g++".
+
+
+--ar AR               Specifies the AR tool to use. If a full path is not
+                      given, searches in Arduino directories before PATH.
+                      Default: "avr-ar".
+
+
+--objcopy OBJCOPY     Specifies the OBJCOPY to use. If a full path is not
+                      given, searches in Arduino directories before PATH.
+                      Default: "avr-objcopy".
+
+
+-f FLAGS, --cppflags FLAGS
+                      Flags that will be passed to the compiler. Note that
+                      multiple (space-separated) flags must be surrounded by
+                      quotes, e.g. `--cppflags="-DC1 -DC2"' specifies flags
+                      to define the constants C1 and C2. Default:
+                      "-ffunction-sections -fdata-sections -g -Os -w".
+
+
+--cflags FLAGS        Like --cppflags, but the flags specified are only
+                      passed to compilations of C source files. Default: "".
+
+
+--cxxflags FLAGS      Like --cppflags, but the flags specified are only
+                      passed to compilations of C++ source files. Default:
+                      "-fno-exceptions".
+
+
+--ldflags FLAGS       Like --cppflags, but the flags specified are only
+                      passed during the linking stage. Note these flags
+                      should be specified as if `ld' were being invoked
+                      directly (i.e. the `-Wl,' prefix should be omitted).
+                      Default: "-Os --gc-sections".
+```
 
 # ROADMAP
 - ~~Read boards from Arduino's boards.txt~~
