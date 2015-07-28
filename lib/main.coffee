@@ -31,6 +31,11 @@ module.exports =
       type: 'string'
       default: '9600'
       enum: ['300','600','1200','1800','2400','3600','4800','7200','9600','14400','19200','28800','38400','57600','115200','230400']
+    # compilerExtraOptions:
+    #   title: 'Compiler extra options & Flags'
+    #   type: 'string'
+    #   default: 'make'
+    #   description: 'TODO'
     compilerMake:
       title: 'Compiler Settings: --make MAKE'
       type: 'string'
