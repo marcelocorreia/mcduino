@@ -52,5 +52,5 @@
   "readmeFilename": "README.md",
   "readme": "# MCduino Arduino plugin for Atom\n###Arduino support in [MCduino](https://github.com/marcelocorreia/mcduino)",
   "repository": "https://github.com/marcelocorreia/mcduino",
-  "version": "0.21.0"
+  "version": "0.22.0"
 }
