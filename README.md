@@ -14,7 +14,7 @@ Optional Toolbar powered by https://github.com/suda/tool-bar
 
 ###Currently for Arduino 1.0.x only and Unix based systems
 - MacOS (Tested on 10.10.14)
-- Linux (Not tested)
+- Linux (Tested on Debian 8.1)
 - FreeBSD (Not tested)
 - OpenBSD (Not tested)
 
