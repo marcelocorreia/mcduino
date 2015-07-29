@@ -10,16 +10,25 @@ class Utils
   @getProperty: (property) ->
     return atom.config.get(property)
 
+  @checkForArduino:(path)->
+    boardsFile = Utils.getProperty('mcduino.arduinoPath') + '/Contents/Resources/Java/hardware/arduino/boards.txt'
+    if not which boardsFile
+      atom.notifications.addError('Error finding a valid Arduino installation at ' + Utils.getProperty('mcduino.arduinoPath') + '<br>Please check your Arduino installation path and version.<br>Support to Arduino 1.5+ still in the roadmap')
+
   @getArduinoSDK: ->
-    if Utils.getProperty('mcduino.arduinoPath')
-      return  Utils.getProperty('mcduino.arduinoPath') + '/Contents/Resources/Java/'
-    else
-      atom.config.set('mcduino.arduinoPath','Auto')
-      return 'Auto'
+    if process.platform is 'darwin'
+      if Utils.getProperty('mcduino.arduinoPath') is 'Auto' or Utils.stringIsBlank(Utils.getProperty('mcduino.arduinoPath'))
+        defaultPath = '/Applications/Arduino.app'
+        atom.notifications.addWarning("Arduino path set to /Applications/Arduino.app<br>You can change it anytime at the preferences panel.")
+        atom.config.set('mcduino.arduinoPath', defaultPath)
+
+    Utils.checkForArduino(defaultPath)
+    return Utils.getProperty('mcduino.arduinoPath') + '/Contents/Resources/Java/'
 
   @removeDuplicates = (ar) ->
     if ar.length == 0
       return []
+
     res = {}
     res[ar[key]] = ar[key] for key in [0..ar.length-1]
     value for key, value of res
@@ -42,8 +51,8 @@ class Utils
 
       return @removeDuplicatesNoEmptyValues(boards)
     catch
-      console.log 'error loading boards'
-      
+      atom.notifications.addError("Could not read boards.txt from the path provided<br>Please check your settings");
+
 
   @sleep = (ms) ->
     start = new Date().getTime()

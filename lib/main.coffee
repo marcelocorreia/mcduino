@@ -58,15 +58,7 @@ module.exports =
       'mcduino:check-requirements': => @checkRequirements()
       'mcduino:dev-test': => @devTest()
 
-
-      if Utils.getProperty('mcduino.arduinoPath') is 'Auto'
-        if process.platform is 'darwin'
-          console.log "Setting arduino default path"
-          atom.config.set('mcduino.arduinoPath', '/Applications/Arduino.app')
-
-      console.log Utils.getModelsList()
-      # @reqChecker.checkItAll()
-
+    Utils.getArduinoSDK()
 
 
   deactivate: ->
@@ -75,9 +67,8 @@ module.exports =
     @reqView.destroy()
 
   devTest: (test)->
-    console.log test
-    # console.log atom.config.getSources()
-    Utils.getModelsList()
+    # console.log test
+    # Utils.getModelsList()
 
   dispose: ->
     @subscriptions.dispose()
@@ -102,7 +93,6 @@ module.exports =
     @runner.run(cmd)
 
   inoCheck: ->
-    # @runner.run(Utils.getProperty('mcduino.inoPath') + ' --help')
     @inoRun('--help')
 
   inoClean: ->
@@ -123,9 +113,6 @@ module.exports =
 
   inoUpload: ->
     @inoBuild('upload')
-
-  # inoSerial: ->
-  #   @inoRun('serial -b ' + Utils.getProperty('mcduino.serialBaudRate') )
 
   inoListModels: ->
     @inoRun('list-models')
@@ -161,8 +148,8 @@ module.exports =
     if(Utils.getProperty('mcduino.boardModel'))
       inoOptions += ' -m ' + Utils.getProperty('mcduino.boardModel')
 
-    # if(Utils.getProperty('mcduino.arduinoPath') or Utils.getProperty('mcduino.arduinoPath') isnt 'Auto')
-    #   inoOptions += ' -d ' + Utils.getArduinoSDK()
+    if(Utils.getProperty('mcduino.arduinoPath') or Utils.getProperty('mcduino.arduinoPath') isnt 'Auto')
+      inoOptions += ' -d ' + Utils.getArduinoSDK()
 
     if(Utils.getProperty('mcduino.serialPort') isnt 'Auto')
       inoOptions += ' -p ' + Utils.getProperty('mcduino.serialPort')

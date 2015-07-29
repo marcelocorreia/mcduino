@@ -14,12 +14,17 @@ class RequirementsChecker
 
   check:(executable) ->
     if not which executable
-      @reqView.addRequirement('<span class="red">' + executable + ' not found in path.</span>')
-      missingStuff = true
+      atom.notifications.addError("#{executable} not found in path<br>Please check your settings.");
+      # @reqView.addRequirement('<span class="red">' + executable + ' not found in path.</span>')
+      # missingStuff = true
     else
-      @reqView.addRequirement('<span class="green">' + executable+' found in path.</span>')
+      atom.notifications.addError("#{executable} not found in path<br>Please check your settings.");
+      # @reqView.addRequirement('<span class="green">' + executable+' found in path.</span>')
 
-    @reqView.show() if missingStuff
+    # @reqView.show() if missingStuff
 
   checkItAll: ->
     @check appl for appl in ['python', 'ino']
+
+
+  runChecks: ->
