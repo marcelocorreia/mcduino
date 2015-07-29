@@ -11,7 +11,11 @@ class Utils
     return atom.config.get(property)
 
   @getArduinoSDK: ->
-    return  Utils.getProperty('mcduino.arduinoPath') + '/Contents/Resources/Java/'
+    if Utils.getProperty('mcduino.arduinoPath')
+      return  Utils.getProperty('mcduino.arduinoPath') + '/Contents/Resources/Java/'
+    else
+      atom.config.set('mcduino.arduinoPath','Auto')
+      return 'Auto'
 
   @removeDuplicates = (ar) ->
     if ar.length == 0
@@ -27,15 +31,19 @@ class Utils
     return result
 
   @getModelsList: ->
-    content = fs.readFileSync @getArduinoSDK() + '/hardware/arduino/boards.txt', 'utf8'
-    boardsArr = content.split('\n')
-    boards = []
-    for bLine in boardsArr
-      if bLine.indexOf "#" , 0 isnt 0
-        blArr = bLine.split('.')
-        boards.push blArr[0]
+    try
+      content = fs.readFileSync @getArduinoSDK() + '/hardware/arduino/boards.txt', 'utf8'
+      boardsArr = content.split('\n')
+      boards = []
+      for bLine in boardsArr
+        if bLine.indexOf "#" , 0 isnt 0
+          blArr = bLine.split('.')
+          boards.push blArr[0]
 
-    return @removeDuplicatesNoEmptyValues(boards)
+      return @removeDuplicatesNoEmptyValues(boards)
+    catch
+      console.log 'error loading boards'
+      
 
   @sleep = (ms) ->
     start = new Date().getTime()
