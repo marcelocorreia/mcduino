@@ -11,7 +11,11 @@ class Utils
     return atom.config.get(property)
 
   @checkForArduino:(path)->
-    boardsFile = Utils.getProperty('mcduino.arduinoPath') + '/Contents/Resources/Java/hardware/arduino/boards.txt'
+    if process.platform is 'darwin'
+      boardsFile = Utils.getProperty('mcduino.arduinoPath') + '/Contents/Resources/Java/hardware/arduino/boards.txt'
+    else
+      boardsFile = Utils.getProperty('mcduino.arduinoPath') + '/hardware/arduino/boards.txt'
+
     if not which boardsFile
       atom.notifications.addError('Error finding a valid Arduino installation at ' + Utils.getProperty('mcduino.arduinoPath') + '<br>Please check your Arduino installation path and version.<br>Support to Arduino 1.5+ still in the roadmap')
 
