@@ -23,7 +23,10 @@ class Utils
         atom.config.set('mcduino.arduinoPath', defaultPath)
 
     Utils.checkForArduino(defaultPath)
-    return Utils.getProperty('mcduino.arduinoPath') + '/Contents/Resources/Java/'
+    if process.platform is 'darwin'
+      return Utils.getProperty('mcduino.arduinoPath') + '/Contents/Resources/Java/'
+    else
+      return Utils.getProperty('mcduino.arduinoPath')
 
   @removeDuplicates = (ar) ->
     if ar.length == 0

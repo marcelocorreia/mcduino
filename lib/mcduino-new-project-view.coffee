@@ -38,7 +38,7 @@ class NewProjectView extends View
     editor = @commandEntryView.getModel()
     editor.setSelectedBufferRange editor.getBuffer().getRange()
     command = @commandEntryView.getModel().getText()
-    
+
 
   hide: ->
     @panel.hide()
@@ -59,7 +59,7 @@ class NewProjectView extends View
   confirm: ->
     if(@getCommand())
       path = @getCommand()
-      myCommand = 'mkdir ' + path + '; cd ' + path + '; ' + atom.config.get('mcduino.inoPath') + ' init -t blink; open -a Atom ' + path
+      myCommand = 'mkdir ' + path + '; cd ' + path + '; ' + atom.config.get('mcduino.inoPath') + ' init -t blink; atom ' + path
 
       @runner.run(myCommand)
 

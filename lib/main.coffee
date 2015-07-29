@@ -56,7 +56,7 @@ module.exports =
       'mcduino:ino-new-project': => @inoNewProject()
       'mcduino:ino-convert': => @inoConvert()
       'mcduino:check-requirements': => @checkRequirements()
-      'mcduino:dev-test': => @devTest()
+      # 'mcduino:dev-test': => @devTest()
 
     Utils.getArduinoSDK()
 
@@ -66,9 +66,8 @@ module.exports =
     @commandOutputView.destroy()
     @reqView.destroy()
 
-  devTest: (test)->
-    # console.log test
-    # Utils.getModelsList()
+  # devTest: (test)->
+  #   application:show-settings
 
   dispose: ->
     @subscriptions.dispose()
