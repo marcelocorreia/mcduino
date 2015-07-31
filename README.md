@@ -1,4 +1,4 @@
-# MCduino Arduino Pacckage for Atom
+# MCduino Arduino Package for Atom
 Arduino 1.0.x support in [Atom](http://atom.io).
 
 Based on [Inotool](http://inotool.org)
