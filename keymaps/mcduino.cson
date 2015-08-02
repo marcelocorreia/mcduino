@@ -18,4 +18,6 @@
   'cmd-ctrl-alt-g': 'mcduino:ino-preproc'
   'cmd-ctrl-alt-n': 'mcduino:ino-new-project'
   'cmd-ctrl-alt-v': 'mcduino:ino-convert'
+  'cmd-ctrl-alt-s': 'mcduino:board-select'
   'cmd-ctrl-y':     'mcduino:dev-test'
+  # 'cmd-ctrl-alt-o': 'mcduino:open-boards-file'

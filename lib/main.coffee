@@ -3,9 +3,10 @@ CommandRunner = require './command-runner'
 RunCommandView = require './mcduino-view'
 NewProjectView = require './mcduino-new-project-view'
 CommandOutputView = require './command-output-view'
-RequirementsChecker = require './requirements-checker'
-Utils = require './utils'
-
+BoardSelectorView = require './mcduino-board-selector-view'
+Utils = require './mcduino-utils'
+fs = require('fs');
+shell = require 'shelljs/global'
 
 module.exports =
   config:
@@ -26,10 +27,6 @@ module.exports =
     serialPort:
       type: 'string'
       default: 'Auto'
-    serialBaudRate:
-      type: 'string'
-      default: '9600'
-      enum: ['300','600','1200','1800','2400','3600','4800','7200','9600','14400','19200','28800','38400','57600','115200','230400']
     compilerExtraOptions:
       title: 'Compiler extra options & Flags'
       type: 'string'
@@ -41,11 +38,10 @@ module.exports =
     @newProjectAgent = new NewProjectView(@runner)
     @commandOutputView = new CommandOutputView(@runner)
     @runCommandView = new RunCommandView(@runner)
-    @reqChecker = new RequirementsChecker()
 
     @subscriptions = atom.commands.add 'atom-workspace',
       'mcduino:run': => @run()
-      'mcduino:toggle-panel': => @togglePanel(),
+      'mcduino:toggle-panel': => @togglePanel()
       'mcduino:kill-last-command': => @killLastCommand()
       'mcduino:ino-check': => @inoCheck()
       'mcduino:ino-clean': => @inoClean()
@@ -55,19 +51,30 @@ module.exports =
       'mcduino:ino-preproc': => @inoPreproc()
       'mcduino:ino-new-project': => @inoNewProject()
       'mcduino:ino-convert': => @inoConvert()
-      'mcduino:check-requirements': => @checkRequirements()
+      'mcduino:boards-txt': => @boardsTXT()
+      'mcduino:board-select': => @boardSelect()
       # 'mcduino:dev-test': => @devTest()
 
-    Utils.getArduinoSDK()
-
+    @arduinoSDK = Utils.getArduinoSDK()
 
   deactivate: ->
     @runCommandView.destroy()
     @commandOutputView.destroy()
     @reqView.destroy()
 
-  # devTest: (test)->
-  #   application:show-settings
+  devTest: (test)->
+    # atom.workspace.open(Utils.getArduinoSDK() + '/examples/')
+
+  boardsTXT: ->
+    try
+      boardsFile = Utils.getArduinoSDK()+'/hardware/arduino/boards.txt'
+      atom.workspace.open(boardsFile)
+    catch
+      atom.notifications.addError('Error finding opening ' + Utils.getProperty('mcduino.arduinoPath') + '<br>Please check your Arduino installation path and version.')
+
+  boardSelect: (test)->
+    @boardSelectorView = new BoardSelectorView()
+    @boardSelectorView.show()
 
   dispose: ->
     @subscriptions.dispose()
@@ -86,7 +93,7 @@ module.exports =
 
     cmd = ''
     cmd += Utils.getProperty('mcduino.inoPath') + ' clean ;'
-    cmd +=  Utils.getProperty('mcduino.inoPath') + ' ' + inoCommand + inoOptions + ' ; '
+    cmd += Utils.getProperty('mcduino.inoPath') + ' ' + inoCommand + inoOptions + ' ; '
     cmd += Utils.getProperty('mcduino.inoPath') + ' upload ' + @getDefaultInoOptions() if upload
 
     @runner.run(cmd)

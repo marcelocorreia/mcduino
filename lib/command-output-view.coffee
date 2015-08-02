@@ -1,7 +1,7 @@
 {CompositeDisposable} = require 'atom'
 {$, View} = require 'atom-space-pen-views'
 {CommandRunner} = require './command-runner'
-Utils = require './utils'
+Utils = require './mcduino-utils'
 
 module.exports =
 class CommandOutputView extends View

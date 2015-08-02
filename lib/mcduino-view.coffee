@@ -1,5 +1,5 @@
 {$, View, TextEditorView} = require 'atom-space-pen-views'
-Utils = require './utils'
+Utils = require './mcduino-utils'
 
 module.exports =
 class RunCommandView extends View

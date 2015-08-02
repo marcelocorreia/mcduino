@@ -5,16 +5,14 @@
     'submenu': [
         {'label':'New Project', 'command':'mcduino:ino-new-project'}
         {'label':'Reload IDE', 'command':'window:reload'}
-        {
-          'label': 'View'
-          'submenu': [
-                {'label':'Toggle Console', 'command':'mcduino:toggle-panel'}
-                {'label':'Toggle Toolbar', 'command':'tool-bar:toggle'}
-          ]
-        }
-        {'label':'List Board Models','command': 'mcduino:ino-list-models'}
+        {'label':'Convert to INO structure', 'command':'mcduino:ino-convert'}
         {'type': 'separator'}
-        {'label':'Convert to INO', 'command':'mcduino:ino-convert'}
+        {'label':'Toggle Console', 'command':'mcduino:toggle-panel'}
+        {'label':'Toggle Toolbar', 'command':'tool-bar:toggle'}
+        {'type': 'separator'}
+        {'label':'Select Board Model','command': 'mcduino:board-select'}
+        {'label':'Open boards.txt','command': 'mcduino:boards-txt'}
+        {'label':'List Board Models','command': 'mcduino:ino-list-models'}
         {'type': 'separator'}
         {'label':'Run Shell Command', 'command':'mcduino:run'}
         {'type': 'separator'}
@@ -23,8 +21,6 @@
         {'label':'Upload','command': 'mcduino:ino-upload'}
         {'type': 'separator'}
         {'label':'INO Help','command': 'mcduino:ino-check'}
-        # {'label':'Dev Test','command': 'mcduino:dev-test'}
-
-    ]
+      ]
   }
 ]

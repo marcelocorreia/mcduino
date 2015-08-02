@@ -12,7 +12,8 @@
       "mcduino:ino-serial",
       "mcduino:ino-list-models",
       "mcduino:ino-new-project",
-      "mcduino:checkRequirements",
+      "mcduino:board-select",
+      "mcduino:boards-txt",
       "mcduino:dev-test"
     ]
   },
