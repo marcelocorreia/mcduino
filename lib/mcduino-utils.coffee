@@ -60,7 +60,6 @@ class Utils
     catch
       atom.notifications.addError("Could not read boards.txt from the path provided<br>Please check your settings");
 
-
   @sleep = (ms) ->
     start = new Date().getTime()
     continue while new Date().getTime() - start < ms
@@ -70,3 +69,4 @@ class Utils
       return false
     else
       return true
+      
