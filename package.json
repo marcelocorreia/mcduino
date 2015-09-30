@@ -29,7 +29,7 @@
   "dependencies": {
     "atom-space-pen-views": "^2.0.3",
     "line-reader": "^0.2.4",
-    "pty.js": "https://github.com/chjj/pty.js/archive/master.tar.gz",
+    "pty.js": "^0.3.0",
     "shelljs": "^0.5.1"
   },
   "description": "Arduino for Atom",
